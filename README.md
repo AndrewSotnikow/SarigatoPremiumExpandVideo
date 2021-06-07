@@ -19,7 +19,7 @@ Sataku JS framework is used to setup creation on a server.
 * [Status](#status) 
 
 ## Screenshots
-![gif file](https://github.com/AndrewSotnikow/SarigatoExpandVideo/blob/main/media/gif.gif)
+![gif file](https://github.com/AndrewSotnikow/SarigatoPremiumExpandVideo/blob/master/media/gif.gif)
 ## Technologies
 * JavaScript
 * SASS
