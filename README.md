@@ -33,9 +33,9 @@ In this reason there is no way to setup project without Sataku JS framework.
 
 You are interested in next files:
 
-* [Main JS file](https://github.com/AndrewSotnikow/SarigatoExpandVideo/blob/main/src/scripts/expand.js)
-* [Main HTML file](https://github.com/AndrewSotnikow/SarigatoExpandVideo/blob/main/src/docs/expand_mobile.html)
-* [Main CSS file](https://github.com/AndrewSotnikow/SarigatoExpandVideo/blob/main/src/styles/expand_mobile.scss)
+* [Main JS file](https://github.com/AndrewSotnikow/SarigatoPremiumExpandVideo/blob/master/src/scripts/expand.js)
+* [Main HTML file](https://github.com/AndrewSotnikow/SarigatoPremiumExpandVideo/blob/master/src/docs/expand_desktop.html)
+* [Main CSS file](https://github.com/AndrewSotnikow/SarigatoPremiumExpandVideo/blob/master/src/styles/expand_desktop.scss)
 
 ## Features
 * RWD
