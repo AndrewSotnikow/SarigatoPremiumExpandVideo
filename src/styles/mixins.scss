@@ -1,0 +1,31 @@
+$FONT_FAMILY_DEFAULT: helvetica, verdana, arial, sans-serif;
+
+@mixin setGeometry($w: 100%, $h: 100%, $l: 0%, $t: 0%, $p: absolute) {
+    position: $p; width: $w;
+    height: $h; top: $t; left: $l;
+}
+@mixin setSizeAndMargin($w: 100vw, $h: $w) {
+    width: $w; height: $h;
+    margin-left: -0.5*$w;
+    margin-top: -0.5*$h;
+}
+@mixin setTopLeftMargin($l: 0, $t: 0) {
+    margin-left: $l;
+    margin-top: $t;
+}
+@mixin setFont($fontSize: 16px, $lineHeight: $fontSize, $color: #fff, $fontFamily: $FONT_FAMILY_DEFAULT) {
+    color: $color;
+    font-size: $fontSize;
+    font-family: $fontFamily;
+    line-height: $lineHeight;
+}
+@mixin sizer($w, $h: false, $p: absolute){
+    position: $p;
+    width: $w*0.0520833333%;
+    @if $h {
+        height: auto;
+    }
+    @else {
+        height: auto;
+    }
+}

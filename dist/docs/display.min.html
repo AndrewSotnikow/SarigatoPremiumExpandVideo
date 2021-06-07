@@ -1,0 +1,25 @@
+<!DOCTYPE html><html><head><!-- !important --><!--{base}--><!-- !important --><title>Display</title><meta charset="utf-8"><link rel="icon" href="data:;base64,iVBORw0KGgo="><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><link rel="stylesheet" href="dist/styles/display.min.css?version=0.0"></head><body id="display"><!-- !important --><!--{content}--><!-- !important --> <img id="mobileGestureIcon" style="display: none;"><script src="dist/scripts/display.min.js?version=0.0"></script><script>if(window.satakuParams !== undefined) {
+                Sataku.invoke();
+            } else {
+                window.addEventListener("message", function(event) {
+                    if(event.data.subject === 'sendSmartData') {
+                        window.satakuParams = event.data.data;
+                        document.body.stkAddClass('format_' + satakuParams['format']);
+                        if(satakuParams['isFriendlyFrameMode']) { Sataku.invoke(); }
+                        else {
+                            var SatakuIsSupported = window.satakuBrowserDetect();
+                            if (SatakuIsSupported){
+                                var fileName = 'dist/docs/display_' + satakuParams['deviceAlias'] + '_' + satakuParams['format'] + '.min.html?version=0.0';
+                            } else{
+                                var fileName = 'dist/docs/display_' + satakuParams['deviceAlias'] + '_fallback_' + satakuParams['format'] + '.min.html?version=0.0';
+                            }
+                            document.stkLoadHtmlFile(fileName, function (event) {
+                                var wrapper = document.createElement('div');
+                                wrapper.innerHTML = String(event.target.responseText);
+                                document.body.appendChild(wrapper);
+                                Sataku.invoke();
+                            }, function(err) { throw new Error(err); });
+                        }
+                    }
+                }, false);
+            }</script></body></html>

@@ -1,0 +1,89 @@
+$RATIO_WORKSPACE: 14/16;
+$RATIO_HEADER: 72/25;
+$RATIO_PLAYER: 16/9;
+$RATIO_CTA: 52/9;
+$RATIO_FOOTER: 36/5;
+
+$SOCIALS_SIZE: 8vw;
+$SOCIALS_MARGIN: 1vw;
+
+// -----------------------------------------------------------------------------
+
+#expand-workspace {
+    $height: 100vh;
+    $width: $height/$RATIO_WORKSPACE;
+    @include setGeometry($width, $height, 50%, 0%, fixed);
+    @include setTopLeftMargin(-0.5*$width, 0);
+    background-color: #000;
+
+    $width: 100vw;
+
+    #background { @include setGeometry(); }
+
+    #header {
+        $height: $width/$RATIO_HEADER;
+        @include setGeometry($width, $height, 50%, 50%, absolute);
+        margin: -1.75*$height 0 0 -0.5*$width;
+    }
+
+    #player-wrapper-1 {
+        $height: $width/$RATIO_PLAYER;
+        @include setGeometry($width, $height, 50%, 50%, absolute);
+        margin: -0.5*$height 0 0 -0.5*$width;
+    }
+
+    #cta {
+        $height: $width/$RATIO_CTA;
+        @include setGeometry($width, $height, 50%, 50%, absolute);
+        margin: 1.5*$height 0 0 -0.5*$width;
+    }
+
+    #footer {
+        $height: $width/$RATIO_FOOTER;
+        @include setGeometry($width, $height, 50%, 50%, absolute);
+        margin: 3*$height 0 0 -0.5*$width;
+    }
+}
+
+// -----------------------------------------------------------------------------
+
+#socials-wrapper {
+    @include setGeometry(auto, auto, 0%, 0%, fixed);
+    svg {
+        @include setGeometry($SOCIALS_SIZE, $SOCIALS_SIZE, 0%, 0%, relative);
+        margin: $SOCIALS_MARGIN 0 0 $SOCIALS_MARGIN;
+        circle { fill: #fff; }
+        path { fill: #000; }
+    }
+    display: none;
+}
+
+// -----------------------------------------------------------------------------
+
+#close-expand {
+    @include setGeometry($SOCIALS_SIZE, $SOCIALS_SIZE, auto, $SOCIALS_MARGIN, fixed);
+    background: url('https://4stk.com/sataku/szablon/images/mobile/custom/zamknij.png?version=0.0') no-repeat center center;
+    background-size: cover;
+    z-index: 99999999 !important;
+    cursor: pointer;
+    right: $SOCIALS_MARGIN;
+}
+
+// -----------------------------------------------------------------------------
+
+#device-orientation {
+    @include setGeometry(100%, 100%, 0%, 0%, fixed);
+    @include setFont(4vw, 100vh, #fff);
+    z-index: 999999 !important;
+    text-align: center;
+    background-color: #000;
+    display: none;
+}
+
+// -----------------------------------------------------------------------------
+
+@media all and (orientation: landscape) {
+    #device-orientation {
+        display: block;
+    }
+}

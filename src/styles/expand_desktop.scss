@@ -1,0 +1,710 @@
+
+.hide {
+  opacity: 0;
+}
+
+#expand-workspace {
+  $width: 100vw;
+  $ratio: 16/9;
+  $height: $width/$ratio;
+  @include setGeometry($width, $height, 0%, 50%, fixed);
+  //@include setTopLeftMargin(0, -0.5*$height);
+  overflow: hidden;
+  background: #fff;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  &.fixed {
+    // #logotype { position: fixed !important; }
+  }
+
+  .global-redirect {
+    @include sizer(1920, 1080);
+    z-index: 1;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  //pointer-events: none;
+  img {
+    position: absolute;
+    z-index: 1;
+  }
+
+  .hide {
+    opacity: 0;
+  }
+
+  .translate {
+    transform: translate(-50%, -50%);
+  }
+
+  #intro {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    overflow: hidden;
+    width: 100vw;
+    max-width: 1920px;
+    height: 100vh;
+    max-height: 1080px;
+    transition: .8s ease;
+    transform: translate(-50%, -50%);
+
+    #bgViolet {
+      top: -25%;
+    }
+
+    #bgViolet, #bgPink, #bgGrey {
+      position: absolute;
+      top: -15%;
+      left: 0;
+      width: 115vw;
+      height: 115vh;
+      transition: 1s ease;
+    }
+
+
+    #bottle {
+      @include sizer(246, 764);
+      top: 203/1080*100%;
+      left: 771/1920*100%;
+      transition: .5s ease;
+    }
+
+    .prodTransform1 {
+      transform: translate(0, -113%);
+    }
+
+    #tin {
+      top: 377/1080*100%;
+      left: 968/1920*100%;
+      @include sizer(307, 508);
+      transition: .5s ease;
+    }
+
+
+    .prodTransform0 {
+      transform: translate(0, -162%);
+    }
+
+    #mint1 {
+      top: 452/1080*100%;
+      left: 1321/1920*100%;
+      @include sizer(102, 135);
+      transition: .5s ease;
+    }
+
+    .elTransform0 {
+      transform: translate(50%, -50%) scale(0);
+    }
+
+    #mint2 {
+      top: 207/1080*100%;
+      left: 945/1920*100%;
+      @include sizer(182, 118);
+      transition: .5s ease;
+    }
+
+    .elTransform1 {
+      transform: translate(0, -50%) scale(0);
+    }
+
+    #lime1 {
+      top: 1227/1080*100%;
+      left: 1309/1920*100%;
+      @include sizer(146, 119);
+      transition: .5s ease;
+    }
+
+    .elTransform2 {
+      transform: translate(108%, 40%) scale(0);
+    }
+
+    #lime2 {
+      top: 393/1080*100%;
+      left: 549/1920*100%;
+      @include sizer(160, 120);
+      transition: .5s ease;
+    }
+
+    .elTransform3 {
+      transform: translate(-100%, 100%) scale(0);
+    }
+
+    #strawberry {
+      top: 651/1080*100%;
+      left: 602/1920*100%;
+      @include sizer(144, 268);
+      transition: .5s ease;
+    }
+
+    .elTransform4 {
+      transform: translate(0, 50%) scale(0);
+    }
+  }
+
+  .bgTransition {
+    transform: translateY(100%);
+  }
+
+  #main {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    overflow: hidden;
+    width: 100%;
+    max-width: 1920px;
+    height: 100%;
+    max-height: 1080px;
+    transition: .8s ease;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+
+    #static {
+      bottom: -4.481481%;
+      left: 59.03125%;
+      @include sizer(1035, 286);
+      transition: .8s ease;
+      transform: translate(-50%, -50%);
+    }
+
+    #guide {
+      top: 19%;
+      left: 58.5%;
+      @include sizer(461, 67);
+      transition: .8s ease;
+      transform: translate(-50%, -50%);
+    }
+
+    #guide2 {
+      top: 25.5%;
+      left: 58.6%;
+      @include sizer(370, 69);
+      transition: .8s ease;
+      transform: translate(-50%, -50%);
+    }
+
+    .shaker {
+      position: absolute;
+      z-index: 1;
+      top: 50%;
+      left: 58.7%;
+      //@include sizer(257, 582);
+      width: 13%;
+      height: 61%;
+      transition: all .8s ease;
+      transform: translate(-50%, -49%);
+    }
+
+    #shaker {
+      @include sizer(253, 407);
+      //top: 62.4%;
+      //left: 50%;
+      top: 69.7%;
+      left: 50%;
+      transition: .8s ease;
+      width: 100%;
+      height: auto;
+    }
+
+    #shakerShadow {
+      top: 85%;
+      left: 76%;
+      transition: all .4s ease;
+      width: 49%;
+      height: auto;
+    }
+
+    #shakerFull {
+      top: 54.3%;
+      left: 58.666667%;
+      transition: all .4s ease;
+      @include sizer(257, 582);
+    }
+
+    #lid {
+      top: 29.5%;
+      left: 49.8%;
+      width: 102%;
+      height: auto;
+      //@include sizer(257, 223);
+      transition: 1s ease;
+    }
+
+    #circle {
+      position: absolute;
+      z-index: 2;
+      top: 42%;
+      width: 130/1080*100%;
+      height: 140/1080*100%;
+      left: 51%;
+      transition: .8s ease;
+      transform: translate(-50%, -50%);
+      border: 3px solid white;
+      border-radius: 50%;
+    }
+
+    .hand {
+      cursor: url('../../media/expand/hand.png'), auto;
+    }
+
+    .dragContainer {
+      z-index: 2;
+      top: 50%;
+      left: 58%;
+      transform: translate(-50%, -50%);
+      width: 60%;
+      height: 100%;
+      position: absolute;
+    }
+
+    #emint1 {
+      position: absolute;
+      top: 21%;
+      left: 15%;
+
+      & img {
+        //@include sizer(103, 136);
+      }
+    }
+
+
+    #elime1 {
+      position: absolute;
+      top: 37%;
+      left: 20%;
+
+      & img {
+        //@include sizer(121, 124);
+      }
+    }
+
+    #elime2 {
+      //@include sizer(115, 86);
+      position: absolute;
+      top: 58%;
+      left: 24%;
+
+      & img {
+        //@include sizer(115, 86);
+      }
+    }
+
+    #estraw1 {
+      //@include sizer(95, 125);
+      position: absolute;
+      top: 50%;
+      left: 74%;
+
+      & img {
+        //@include sizer(95, 125);
+      }
+    }
+
+    #estraw2 {
+      //@include sizer(109, 108);
+      position: absolute;
+      top: 35%;
+      left: 69%;
+
+      & img {
+        //@include sizer(109, 108);
+      }
+    }
+
+    .dropElement {
+      z-index: 3;
+      cursor: url('../../media/expand/hand.png'), auto;
+      background-color: transparent;
+      width: 14%;
+      height: 14%;
+      &.grab {
+        cursor: url('../../media/expand/grab.png'), auto;
+      }
+
+      & img {
+        position: absolute;
+        z-index: 1;
+        top: 50%;
+        left: 50%;
+        width: 64%;
+        transition: all .3s;
+        transform: translate(-50%, -50%) rotate(0deg) scale(1);
+      }
+
+      &:hover img {
+        transform: translate(-50%, -50%) rotate(90deg) scale(1.1);
+      }
+
+      &:before {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        @include sizer(120, 120);
+        content: " ";
+        transition: .2s ease;
+        transform: translate(-50%, -50%) rotate(0deg);
+        opacity: 0;
+        border: 2px solid white;
+      }
+
+      &:hover::before {
+        transform: translate(-50%, -50%) rotate(90deg);
+        opacity: 1;
+      }
+    }
+
+    #prodContainer {
+      position: absolute;
+      z-index: 1;
+      top: 51%;
+      left: 59%;
+      width: 19.62499999%;
+      height: 41.66666664%;
+      transition: .8s ease;
+      transform: translate(-50%, -50%);
+    }
+
+    #glass {
+      @include sizer(245, 455);
+      z-index: 1;
+      top: 52%;
+      left: 68.5%;
+      transition: .5s all;
+      transform: translate(-45%, -50%);
+      opacity: 0;
+
+      &.glassIn {
+        transform: translate(-50%, -50%);
+        opacity: 1;
+      }
+    }
+
+    #tin2 {
+      top: 76%;
+      left: 49%;
+      width: 44%;
+      height: auto;
+      transition: .5s ease;
+    }
+
+    #tinShadow {
+      top: 86%;
+      left: 74%;
+      @include sizer(790, 198);
+      transition: .5s ease;
+    }
+
+    #bottle2 {
+      position: absolute;
+      top: 47%;
+      left: 49%;
+      width: 46%;
+      height: auto;
+      transition: .5s ease;
+    }
+
+    #bottleShadow {
+      position: absolute;
+      top: 86%;
+      left: 74%;
+      @include sizer(790, 198);
+      transition: .5s ease;
+    }
+
+    .logo {
+      top: 21%;
+      left: 9%;
+      @include sizer(241, 152);
+      transition: .8s ease;
+      transform: translate(-50%, -50%);
+    }
+
+    .text {
+      top: 47.5%;
+      left: 19%;
+      @include sizer(562, 329);
+      transition: .8s ease;
+      transform: translate(-50%, -50%);
+    }
+
+
+    #cta {
+      width: 260/1920*100%;
+      height: 60/1080*100%;
+      z-index: 3;
+      top: 76.4%;
+      left: 12%;
+      position: absolute;
+      transition: .3s ease;
+      transform: translate(-60%, -50%);
+      background-color: #fff;
+
+      .cta {
+        width: 47%;
+        height: 32%;
+        z-index: 4;
+        top: 50%;
+        left: 50%;
+        transition: .4s ease;
+        transform: translate(-50%, -50%);
+      }
+
+      img {
+        width: 100%;
+        height: 100%;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+
+        &.bgCta {
+          width: 161%;
+          height: 392%;
+          z-index: 1;
+          top: 79.4%;
+          left: 47%;
+          transition: .3s all;
+          transform: translate(-160%, -50%);
+          opacity: 0;
+        }
+
+        &.ctaCover {
+          z-index: 2;
+          transition: .3s all;
+          clip-path: inset(0 0% 0% 100%);
+
+          &.cta_a {
+            top: 50%;
+            clip-path: inset(0 100% 0% 0%);
+          }
+        }
+      }
+
+      &:hover {
+        img {
+          &.ctaCover {
+            clip-path: inset(0 0 0 0);
+          }
+
+          &.bgCta {
+            transform: translate(-60%, -50%);
+            opacity: 1;
+          }
+        }
+
+      }
+    }
+
+
+    .legal {
+      @include sizer(213, 27);
+      bottom: 10.296296%;
+      left: 6.5%;
+      transition: .8s ease;
+      transform: translate(-50%, -50%);
+
+    }
+
+    #container {
+      position: absolute;
+      width: 50%;
+      height: 100%;
+    }
+
+    .counter {
+      width: 21%;
+      height: 19%;
+      position: absolute;
+      z-index: 2;
+      top: 24%;
+      right: 0;
+      transform: translate(0, -50%);
+
+      .number {
+        top: 36%;
+        left: 31.4%;
+        position: absolute;
+        width: 18.979167%;
+        height: auto;
+      }
+
+      #repeat {
+        bottom: 23%;
+        left: 11.5%;
+        width: 27%;
+        height: auto;
+        cursor: pointer;
+      }
+
+      #maxNumber {
+       top: 50%;
+        left: 56%;
+        width: 14.5%;
+        height: auto;
+      }
+
+      #steps {
+        top: 0;
+        left: 0;
+        width: 100%;
+        //@include sizer(404, 202);
+      }
+    }
+
+
+    .bgTranslate {
+      transform: translate(-50%, -50%);
+    }
+
+    .bgLeft {
+      top: 50%;
+      left: 14.5%;
+      @include sizer(559, 1080);
+      transition: .6s ease;
+      transform: translate(-50%, -50%);
+    }
+
+    .ebg {
+      position: absolute;
+      top: 50%;
+      left: 56%;
+      //width: 75.2083332852vw;
+      //height: 56.249999964vw;
+      transition: .8s ease;
+      transform: translate(-50%, -50%);
+      @include sizer(1444, 1080);
+    }
+
+    .bgRight {
+      z-index: 2;
+      top: 50%;
+      right: -6.4%;
+      @include sizer(239, 1080);
+      transition: .4s ease;
+      transform: translate(-50%, -50%);
+    }
+
+    .go {
+      z-index: 2;
+      right: 0%;
+      @include sizer(262, 84);
+      bottom: 11%;
+      transition: .8s ease;
+      transform: translate(0, -50%);
+    }
+
+    .toShaker {
+      transition: all .4s ease;
+      transform: translate(50%, 10%) rotate(360deg) scale(0);
+    }
+
+    .expandTransitionLeft {
+      transform: translate(-170%, -50%);
+    }
+
+    .expandTransitionRight {
+      transform: translate(170%, -50%);
+    }
+
+    .translateUp {
+      transform: translate(-50%, -300%);
+    }
+
+    .shakerRotate {
+      transform: translate(0%, -370%) rotate(540deg);
+      transform-origin: center;
+    }
+
+  }
+
+  #outro {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    overflow: hidden;
+    width: 100vw;
+    max-width: 1920px;
+    height: 100vh;
+    max-height: 1080px;
+    transition: .8s ease;
+    transform: translate(-50%, -50%);
+
+    #outroBgPink {
+      transition: .8s ease;
+    }
+
+    #outroBgGrey {
+      transition: .8s ease;
+    }
+
+    #outroLogo {
+      top: 50%;
+      left: 50%;
+      @include sizer(544, 341);
+      transition: .8s ease;
+      transform: translate(-50%, -50%);
+    }
+
+    .outroTransform {
+      transform: translateY(-150%);
+    }
+  }
+}
+
+@keyframes scaleAnim {
+  from {
+    transform: scale(0);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+#close-expand {
+  //@include sizer(93,16);
+  width: 7.5vw;
+  height: 2vh;
+  //@include setGeometry($width, $height, auto, $margin, fixed);
+
+  z-index: 99999999 !important;
+  // background: url('https://4stk.com/sataku/szablon/images/mobile/custom/zamknij.png?version=0.0') no-repeat center center;
+  top: 14vh;
+  right: 2vw;
+  cursor: pointer;
+  transition: .8s ease;
+  background-size: contain;
+  position: absolute;
+
+  .square {
+    transform-origin: center;
+    z-index: -1;
+    top: 50%;
+    left: 84%;
+    transition: .3s all;
+    @include sizer(30, 30);
+    transform: translate(0, -50%) rotate(-45deg);
+    background: white;
+  }
+
+  & img {
+    width: 80%;
+    right: 0;
+  }
+
+  &:hover {
+    .square {
+      transform: translate(0, -50%) rotate(0deg);
+    }
+  }
+}
+
+#player-wrapper-1 {
+  $width: 33vw;
+  $ratio: 16/9;
+  $height: $width/$ratio;
+  @include setGeometry($width, $height, 0%, 0%, absolute);
+  @include setTopLeftMargin(-0.5*$width, -0.5*$height);
+}

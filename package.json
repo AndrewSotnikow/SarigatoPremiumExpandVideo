@@ -1,0 +1,30 @@
+{
+  "name": "project-template",
+  "version": "0.0.1",
+  "authors": [
+    "Dawid Janik"
+  ],
+  "description": "project-template",
+  "main": "Gulpfile.js",
+  "devDependencies": {
+    "del": "^2.2.2",
+    "gulp": "^3.9.1",
+    "gulp-autoprefixer": "^3.1.1",
+    "gulp-concat": "^2.6.1",
+    "gulp-cssnano": "^2.1.2",
+    "gulp-htmlmin": "^3.0.0",
+    "gulp-imagemin": "^3.1.1",
+    "gulp-rename": "^1.2.2",
+    "gulp-ruby-sass": "^2.1.1",
+    "gulp-uglify": "^2.0.1",
+    "run-sequence": "^1.2.2",
+    "screenfull": "^5.0.2",
+    "gsap": "^1.20.2",
+    "iphone-inline-video": "^2.2.2",
+    "jquery": "^3.2.1",
+    "babel-preset-env": "^1.6.0",
+    "babel-core": "^6.26.0",
+    "gulp-babel": "^7.0.0",
+    "browser-sync": "^2.18.13"
+  }
+}

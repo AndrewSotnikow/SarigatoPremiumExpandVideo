@@ -1,0 +1,720 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  font-size: 0;
+  outline: unset;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0%;
+  left: 0%;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+}
+htmlbody, bodybody {
+  overflow: hidden;
+}
+htmlbody.cover, bodybody.cover {
+  background-color: #000;
+}
+
+video::-webkit-media-controls {
+  display: none !important;
+}
+
+video::-webkit-media-controls-play-button,
+.IIV::-webkit-media-controls-play-button,
+video::-webkit-media-controls-start-playback-button {
+  opacity: 0 !important;
+  pointer-events: none !important;
+  width: 5px !important;
+  display: none !important;
+}
+
+.player-wrapper {
+  overflow: hidden;
+  cursor: auto;
+}
+.player-wrapper.disabled {
+  display: none;
+}
+.player-wrapper.cursor-pointer {
+  cursor: pointer;
+}
+.player-wrapper.fullscreen {
+  width: 100% !important;
+  height: 100% !important;
+  top: 0 !important;
+  left: 0 !important;
+  bottom: auto !important;
+  right: auto !important;
+  position: absolute !important;
+  margin: 0 !important;
+  background: black !important;
+  -ms-transform: unset !important;
+      transform: unset !important;
+  outline: unset !important;
+  border: unset !important;
+  border-radius: 0px !important;
+  overflow: visible !important;
+}
+.player-wrapper.fullscreen .player-video {
+  width: 100% !important;
+  height: auto !important;
+}
+
+.player-gui-wrapper {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0%;
+  left: 0%;
+  transition: opacity 120ms linear;
+  opacity: 0;
+}
+.player-gui-wrapper:hover {
+  opacity: 1;
+}
+
+.player-video {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0%;
+  left: 0%;
+  background: #000;
+  object-fit: fill;
+}
+
+.player-anchor {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0%;
+  left: 0%;
+}
+
+.player-endboard-wrapper {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0%;
+  left: 0%;
+  display: none !important;
+  background-size: cover !important;
+}
+.player-endboard-wrapper.active {
+  display: block !important;
+}
+.player-endboard-wrapper .player-overlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0%;
+  left: 0%;
+  background-color: rgba(0, 0, 0, 0.4);
+  pointer-events: none;
+}
+.player-endboard-wrapper .player-replay-wrapper {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0%;
+  left: 0%;
+  opacity: 0.9;
+  transition: opacity 0.3s ease-in-out;
+  cursor: pointer;
+}
+.player-endboard-wrapper .player-replay-wrapper:hover {
+  opacity: 1;
+}
+.player-endboard-wrapper .player-replay-wrapper .player-replay-content-wrapper {
+  pointer-events: none;
+}
+
+.social-anchor {
+  opacity: 0.9;
+  -ms-transform: scale(1);
+      transform: scale(1);
+  transition: transform 120ms 120ms ease-out, opacity 120ms 120ms linear;
+  pointer-events: none;
+}
+.social-anchor circle {
+  pointer-events: auto;
+  fill: #fff;
+}
+.social-anchor:hover {
+  transition: transform 120ms ease-out, opacity 120ms linear;
+  -ms-transform: scale(0.95);
+      transform: scale(0.95);
+  opacity: 1;
+}
+.social-anchor path {
+  fill: #000;
+}
+
+.player-gui-wrapper {
+  -ms-transform: scale(1.0001);
+      transform: scale(1.0001);
+  overflow: hidden;
+}
+.player-gui-wrapper > .player-seekbar-wrapper {
+  position: absolute;
+  width: 100%;
+  height: 8px;
+  top: 0%;
+  left: 0%;
+  top: auto;
+  bottom: -2px;
+  background: rgba(255, 255, 255, 0);
+  overflow: hidden;
+  pointer-events: none;
+  transform: translateZ(0);
+}
+.player-gui-wrapper > .player-seekbar-wrapper .player-progressbar {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0%;
+  left: 0%;
+  background: #fff;
+  pointer-events: none;
+  -ms-transform: translateX(-100%);
+      transform: translateX(-100%);
+}
+.player-gui-wrapper .player-resume {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  top: 50%;
+  left: 50%;
+  transform: translate3d(-50%, -50%, 0);
+}
+.player-gui-wrapper .player-resume.active {
+  display: none;
+}
+.player-gui-wrapper .player-resume .player-resume-circle {
+  stroke-width: 4;
+  stroke: #fff;
+  fill: rgba(0, 0, 0, 0.2);
+}
+.player-gui-wrapper .player-resume path {
+  fill: #fff;
+}
+.player-gui-wrapper .player-volume-icon-wrapper {
+  position: absolute;
+  width: 4vw;
+  height: 4vw;
+  top: 2vw;
+  left: 0;
+  min-width: 40px;
+  min-height: 40px;
+  max-width: 53px;
+  max-height: 53px;
+  left: auto;
+  right: 2vw;
+  overflow: hidden;
+  cursor: pointer;
+  opacity: 0.9;
+  transition: opacity 0.3s ease-in-out;
+}
+.player-gui-wrapper .player-volume-icon-wrapper:hover {
+  opacity: 1;
+}
+.player-gui-wrapper .player-volume-icon-wrapper.hidden {
+  opacity: 0;
+}
+.player-gui-wrapper .player-volume-icon-wrapper.disabled {
+  display: none;
+}
+.player-gui-wrapper .player-volume-icon-wrapper svg {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0%;
+  left: 0%;
+  fill: #fff;
+}
+.player-gui-wrapper .player-volume-icon-wrapper svg .player-volume-icon-bg {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0%;
+  left: 0%;
+  fill: rgba(0, 0, 0, 0.2);
+}
+.player-gui-wrapper .player-volume-icon-wrapper .player-sound-on {
+  opacity: 0;
+}
+.player-gui-wrapper .player-volume-icon-wrapper .player-sound-off {
+  opacity: 1;
+}
+.player-gui-wrapper .player-volume-icon-wrapper.sound-on .player-sound-on {
+  opacity: 1;
+}
+.player-gui-wrapper .player-volume-icon-wrapper.sound-on .player-sound-off {
+  opacity: 0;
+}
+.player-gui-wrapper .player-controls-wrapper {
+  position: absolute;
+  width: 100%;
+  height: calc(0.7 * 30px + 20px + 1vw + 0.25vw);
+  top: 0%;
+  left: 50%;
+  top: auto;
+  bottom: 0;
+  transform: translate3d(-50%, 0, 0) scale(1.0001);
+  overflow: hidden;
+}
+.player-gui-wrapper .player-controls-wrapper [class*='-wrapper'] {
+  overflow: hidden;
+}
+.player-gui-wrapper .player-controls-wrapper .player-resume-wrapper, .player-gui-wrapper .player-controls-wrapper .player-volume-wrapper, .player-gui-wrapper .player-controls-wrapper .player-seekbar-area-wrapper {
+  opacity: 0.9;
+  transition: opacity 0.3s ease-in-out;
+}
+.player-gui-wrapper .player-controls-wrapper .player-resume-wrapper:hover, .player-gui-wrapper .player-controls-wrapper .player-volume-wrapper:hover, .player-gui-wrapper .player-controls-wrapper .player-seekbar-area-wrapper:hover {
+  opacity: 1;
+}
+.player-gui-wrapper .player-controls-wrapper .player-seekbar-area-wrapper:hover {
+  opacity: 1;
+}
+.player-gui-wrapper .player-controls-wrapper .player-seekbar-area-wrapper:hover .player-seekbar-wrapper {
+  background-color: rgba(255, 255, 255, 0.4);
+}
+.player-gui-wrapper .player-controls-wrapper .player-seekbar-area-wrapper:hover .player-progressbar {
+  background-color: rgba(255, 255, 255, 0.8);
+}
+.player-gui-wrapper .player-controls-wrapper .player-controls-overlay {
+  position: absolute;
+  width: 102%;
+  height: calc(0.7 * 30px + 20px + 1vw + 0.25vw);
+  top: 0%;
+  left: 50%;
+  top: auto;
+  bottom: 0;
+  transform: translate3d(-50%, 3%, 0);
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.6));
+}
+.player-gui-wrapper .player-controls-wrapper .player-controls-bottom-wrapper {
+  width: 97%;
+  position: absolute;
+  width: calc(100% - 2 * 3% + 10px);
+  height: calc(20px + 0.25vw + 1vw);
+  top: 0%;
+  left: calc(3% - 10px);
+  top: auto;
+  bottom: 0;
+  pointer-events: none;
+}
+.player-gui-wrapper .player-controls-wrapper .player-seekbar-area-wrapper {
+  width: 97%;
+  position: relative;
+  width: calc(100% - 2 * 3%);
+  height: 30px;
+  top: 0;
+  left: 0;
+  margin: 0 auto;
+  cursor: pointer;
+}
+.player-gui-wrapper .player-controls-wrapper .player-seekbar-area-wrapper .player-seekbar-wrapper, .player-gui-wrapper .player-controls-wrapper .player-seekbar-area-wrapper .player-progressbar {
+  transition: background-color 0.3s ease-in-out;
+}
+.player-gui-wrapper .player-controls-wrapper .player-seekbar-area-wrapper .player-seekbar-wrapper {
+  position: absolute;
+  width: 100%;
+  height: 4px;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+      transform: translate(-50%, -50%);
+  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: 5px;
+  overflow: hidden;
+  pointer-events: none;
+}
+.player-gui-wrapper .player-controls-wrapper .player-seekbar-area-wrapper .player-progressbar {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0%;
+  left: 0%;
+  pointer-events: none;
+  -ms-transform: translateX(-100%);
+      transform: translateX(-100%);
+  background-color: rgba(255, 255, 255, 0.6);
+}
+.player-gui-wrapper .player-controls-wrapper .player-resume-wrapper, .player-gui-wrapper .player-controls-wrapper .player-volume-wrapper {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  pointer-events: auto;
+}
+.player-gui-wrapper .player-controls-wrapper .player-resume-wrapper svg, .player-gui-wrapper .player-controls-wrapper .player-volume-wrapper svg {
+  width: 20px;
+  height: 20px;
+  position: absolute;
+}
+.player-gui-wrapper .player-controls-wrapper .player-resume-wrapper svg path, .player-gui-wrapper .player-controls-wrapper .player-volume-wrapper svg path {
+  fill: #fff;
+}
+.player-gui-wrapper .player-controls-wrapper .player-resume-wrapper .player-play, .player-gui-wrapper .player-controls-wrapper .player-resume-wrapper .player-sound-off, .player-gui-wrapper .player-controls-wrapper .player-volume-wrapper .player-play, .player-gui-wrapper .player-controls-wrapper .player-volume-wrapper .player-sound-off {
+  opacity: 1;
+}
+.player-gui-wrapper .player-controls-wrapper .player-resume-wrapper .player-pause, .player-gui-wrapper .player-controls-wrapper .player-resume-wrapper .player-sound-on, .player-gui-wrapper .player-controls-wrapper .player-volume-wrapper .player-pause, .player-gui-wrapper .player-controls-wrapper .player-volume-wrapper .player-sound-on {
+  opacity: 0;
+}
+.player-gui-wrapper .player-controls-wrapper .player-resume-wrapper {
+  padding: 0.25vw 10px 1vw 10px;
+  left: calc(3% - 10px);
+}
+.player-gui-wrapper .player-controls-wrapper .player-resume-wrapper.active .player-play {
+  opacity: 0;
+}
+.player-gui-wrapper .player-controls-wrapper .player-resume-wrapper.active .player-pause {
+  opacity: 1;
+}
+.player-gui-wrapper .player-controls-wrapper .player-volume-wrapper {
+  padding: 0.25vw 10px 1vw 10px;
+}
+.player-gui-wrapper .player-controls-wrapper .player-volume-wrapper.sound-on .player-sound-off {
+  opacity: 0;
+}
+.player-gui-wrapper .player-controls-wrapper .player-volume-wrapper.sound-on .player-sound-on {
+  opacity: 1;
+}
+.player-gui-wrapper .player-controls-wrapper .player-timebar {
+  height: 20px;
+  margin: 0.25vw 0 0 0;
+  padding-right: 5px;
+  color: #fff;
+  font-size: 12px;
+  font-family: helvetica, verdana, arial, sans-serif;
+  line-height: 20px;
+  opacity: 0.9;
+  pointer-events: none;
+  -webkit-font-smoothing: antialiased;
+  float: right;
+}
+
+.player-endboard-wrapper {
+  -ms-transform: scale(1.0001);
+      transform: scale(1.0001);
+}
+.player-endboard-wrapper .player-replay-wrapper .player-replay-content-wrapper {
+  position: absolute;
+  width: 250px;
+  height: 50px;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+      transform: translate(-50%, -50%);
+}
+.player-endboard-wrapper .player-replay-wrapper .player-replay-content-wrapper .player-replay {
+  position: absolute;
+  width: auto;
+  height: 100%;
+  top: 0%;
+  left: 0%;
+  fill: #fff;
+}
+.player-endboard-wrapper .player-replay-wrapper .player-replay-content-wrapper .player-text {
+  position: absolute;
+  width: 200px;
+  height: 21px;
+  top: 50%;
+  left: 0;
+  left: auto;
+  right: 0;
+  color: #fff;
+  font-size: 21px;
+  font-family: helvetica, verdana, arial, sans-serif;
+  line-height: 20px;
+  -ms-transform: translateY(-50%);
+      transform: translateY(-50%);
+  text-align: right;
+  font-weight: 600;
+  color: #fff;
+}
+.player-endboard-wrapper .player-socials-wrapper {
+  position: relative;
+  width: 114px;
+  height: 30px;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, 5vw);
+      transform: translate(-50%, 5vw);
+  text-align: center;
+  overflow: hidden;
+}
+.player-endboard-wrapper .player-socials-wrapper:hover {
+  overflow: visible;
+}
+.player-endboard-wrapper .player-socials-wrapper:hover .player-share {
+  opacity: 1;
+}
+.player-endboard-wrapper .player-socials-wrapper svg {
+  position: relative;
+  width: 30px;
+  height: 30px;
+  top: 0%;
+  left: 0%;
+  margin: 0 4px;
+}
+.player-endboard-wrapper .player-socials-wrapper .player-share {
+  color: #fff;
+  font-size: 12px;
+  font-family: helvetica, verdana, arial, sans-serif;
+  line-height: 12px;
+  margin: 8px 0 0 0;
+  height: 12px;
+  transition: opacity 120ms linear;
+  opacity: 0;
+}
+
+.player-gui-wrapper .player-socials-wrapper {
+  margin-left: 10px;
+  margin-top: 10px;
+  width: 25px;
+  position: absolute;
+}
+.player-gui-wrapper .player-socials-wrapper a {
+  position: relative;
+  width: 25px;
+  height: 25px;
+  top: 0;
+  left: 0;
+  display: inline-block;
+}
+.player-gui-wrapper .player-socials-wrapper svg {
+  position: absolute;
+  width: 87.5px;
+  height: 25px;
+  top: 0%;
+  left: 0%;
+  -ms-transform-origin: 10px 50%;
+      transform-origin: 10px 50%;
+  display: block;
+}
+.player-gui-wrapper .player-socials-wrapper svg g {
+  opacity: 0;
+  transition: opacity 120ms linear;
+}
+.player-gui-wrapper .player-socials-wrapper svg g rect {
+  fill: rgba(0, 0, 0, 0.75);
+}
+.player-gui-wrapper .player-socials-wrapper svg g text {
+  color: #fff;
+  font-size: 13px;
+  font-family: helvetica, verdana, arial, sans-serif;
+  line-height: 13px;
+  fill: #fff;
+}
+.player-gui-wrapper .player-socials-wrapper .social-anchor:hover g {
+  opacity: 1;
+  transition: opacity 250ms 120ms linear;
+}
+.player-gui-wrapper .player-socials-wrapper.right-side {
+  left: auto;
+  right: 0;
+  margin-left: 0;
+  margin-right: 10px;
+}
+.player-gui-wrapper .player-socials-wrapper.right-side svg {
+  -ms-transform-origin: 120px 50%;
+      transform-origin: 120px 50%;
+  left: auto;
+  right: 0;
+}
+
+.player-wrapper.mobile .player-endboard-wrapper {
+  -ms-transform: scale(1.0001);
+      transform: scale(1.0001);
+}
+.player-wrapper.mobile .player-endboard-wrapper .player-replay-wrapper .player-replay-content-wrapper {
+  position: absolute;
+  width: 200px;
+  height: 40px;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+      transform: translate(-50%, -50%);
+}
+.player-wrapper.mobile .player-endboard-wrapper .player-replay-wrapper .player-replay-content-wrapper .player-replay {
+  position: absolute;
+  width: auto;
+  height: 100%;
+  top: 0%;
+  left: 0%;
+  fill: #fff;
+}
+.player-wrapper.mobile .player-endboard-wrapper .player-replay-wrapper .player-replay-content-wrapper .player-text {
+  position: absolute;
+  width: 160px;
+  height: 16.8px;
+  top: 50%;
+  left: 0;
+  left: auto;
+  right: 0;
+  color: #fff;
+  font-size: 16.8px;
+  font-family: helvetica, verdana, arial, sans-serif;
+  line-height: 15.8px;
+  -ms-transform: translateY(-50%);
+      transform: translateY(-50%);
+  text-align: right;
+  font-weight: 600;
+  color: #fff;
+}
+.player-wrapper.mobile .player-endboard-wrapper .player-socials-wrapper {
+  position: relative;
+  width: 91.2px;
+  height: 24px;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, 5vw);
+      transform: translate(-50%, 5vw);
+  text-align: center;
+  overflow: hidden;
+}
+.player-wrapper.mobile .player-endboard-wrapper .player-socials-wrapper:hover {
+  overflow: visible;
+}
+.player-wrapper.mobile .player-endboard-wrapper .player-socials-wrapper:hover .player-share {
+  opacity: 1;
+}
+.player-wrapper.mobile .player-endboard-wrapper .player-socials-wrapper svg {
+  position: relative;
+  width: 24px;
+  height: 24px;
+  top: 0%;
+  left: 0%;
+  margin: 0 3.2px;
+}
+.player-wrapper.mobile .player-endboard-wrapper .player-socials-wrapper .player-share {
+  color: #fff;
+  font-size: 9.6px;
+  font-family: helvetica, verdana, arial, sans-serif;
+  line-height: 9.6px;
+  margin: 6.4px 0 0 0;
+  height: 9.6px;
+  transition: opacity 120ms linear;
+  opacity: 0;
+}
+
+.player-wrapper.gui-visible .player-gui-wrapper {
+  opacity: 1 !important;
+}
+
+#expand-workspace {
+  position: fixed;
+  width: 114.2857142857vh;
+  height: 100vh;
+  top: 0%;
+  left: 50%;
+  margin-left: -57.1428571429vh;
+  margin-top: 0;
+  background-color: #000;
+}
+#expand-workspace #background {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0%;
+  left: 0%;
+}
+#expand-workspace #header {
+  position: absolute;
+  width: 100vw;
+  height: 34.7222222222vw;
+  top: 50%;
+  left: 50%;
+  margin: -60.7638888889vw 0 0 -50vw;
+}
+#expand-workspace #player-wrapper-1 {
+  position: absolute;
+  width: 100vw;
+  height: 56.25vw;
+  top: 50%;
+  left: 50%;
+  margin: -28.125vw 0 0 -50vw;
+}
+#expand-workspace #cta {
+  position: absolute;
+  width: 100vw;
+  height: 17.3076923077vw;
+  top: 50%;
+  left: 50%;
+  margin: 25.9615384615vw 0 0 -50vw;
+}
+#expand-workspace #footer {
+  position: absolute;
+  width: 100vw;
+  height: 13.8888888889vw;
+  top: 50%;
+  left: 50%;
+  margin: 41.6666666667vw 0 0 -50vw;
+}
+
+#socials-wrapper {
+  position: fixed;
+  width: auto;
+  height: auto;
+  top: 0%;
+  left: 0%;
+  display: none;
+}
+#socials-wrapper svg {
+  position: relative;
+  width: 8vw;
+  height: 8vw;
+  top: 0%;
+  left: 0%;
+  margin: 1vw 0 0 1vw;
+}
+#socials-wrapper svg circle {
+  fill: #fff;
+}
+#socials-wrapper svg path {
+  fill: #000;
+}
+
+#close-expand {
+  position: fixed;
+  width: 8vw;
+  height: 8vw;
+  top: 1vw;
+  left: auto;
+  background: url("https://4stk.com/sataku/szablon/images/mobile/custom/zamknij.png?version=0.0") no-repeat center center;
+  background-size: cover;
+  z-index: 99999999 !important;
+  cursor: pointer;
+  right: 1vw;
+}
+
+#device-orientation {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0%;
+  left: 0%;
+  color: #fff;
+  font-size: 4vw;
+  font-family: helvetica, verdana, arial, sans-serif;
+  line-height: 100vh;
+  z-index: 999999 !important;
+  text-align: center;
+  background-color: #000;
+  display: none;
+}
+
+@media all and (orientation: landscape) {
+  #device-orientation {
+    display: block;
+  }
+}

@@ -1,0 +1,565 @@
+$COLOR_THEME: #fff;
+$BG_COLOR_THEME: #000;
+$BASE_SIZE: 1;
+
+$PROGRESSBAR_FILL: rgba($COLOR_THEME, 0.6);
+$SEEKBAR_FILL: rgba($COLOR_THEME, 0.3); // if its the same color it should have opacity level > 0.1 in comparison to $PROGRESSBAR_FILL due to (1.) so progress-bar can stand out and (2.) opacify function is being used on hover state
+$MOBILE_PROGRESSBAR_FILL: $COLOR_THEME;
+$MOBILE_SEEKBAR_FILL: rgba($COLOR_THEME, 0);
+
+// big volume icon
+$VOLUME_ICON_MARGIN: 2vw;
+$VOLUME_ICON_FILL: $COLOR_THEME;
+$VOLUME_ICON_BACKGROUND_FILL: rgba($BG_COLOR_THEME, 0.2);
+
+// view with bottom controls wrapper
+$CONTROLS_WRAPPER_FILL: linear-gradient(transparent, rgba($BG_COLOR_THEME, 0.6));
+$CONTROLS_FILL: $COLOR_THEME; // play/resume and small volume icon
+$TIMEBAR_COLOR: $COLOR_THEME;
+
+// view without bottom controls wrapper
+$MOBILE_RESUME_CIRCLE_STROKE: $COLOR_THEME;
+$MOBILE_RESUME_CIRCLE_FILL: rgba($BG_COLOR_THEME, 0.2);
+$MOBILE_RESUME_TRIANGLE_FILL: $COLOR_THEME;
+
+$ENDBOARD_OVERLAY_COLOR: rgba($BG_COLOR_THEME, 0.4);
+$ENDBOARD_COLOR: $COLOR_THEME; // endboard replay content
+
+$SOCIALS_VIEWBOX_DIFF: 140/40;
+$SOCIALS_SHARE_TEXT_FILL: $COLOR_THEME;
+$SOCIALS_LAYER_FILL: rgba($BG_COLOR_THEME, 0.75);
+$SOCIALS_ICON_FILL: $BG_COLOR_THEME;
+$SOCIALS_CIRCLE_FILL: $COLOR_THEME;
+$SOCIALS_ENDBOARD_TEXT_COLOR: $COLOR_THEME;
+
+.player-wrapper {
+    overflow: hidden;
+    cursor: auto;
+    &.disabled {
+        display: none;
+    }
+    &.cursor-pointer {
+        cursor: pointer;
+    }
+    &.fullscreen {
+        width: 100% !important;
+        height: 100% !important;
+        top: 0 !important;
+        left: 0 !important;
+        bottom: auto !important;
+        right: auto !important;
+        position: absolute !important;
+        margin: 0 !important;
+        background: black !important;
+        transform: unset !important;
+        outline: unset !important;
+        border: unset !important;
+        border-radius: 0px !important;
+        overflow: visible !important; //safari
+
+        .player-video {
+          width: 100% !important;
+          height: auto !important;
+        }
+    }
+}
+
+.player-gui-wrapper {
+    @include setGeometry();
+    transition: opacity 120ms linear;
+    opacity: 0;
+
+    &:hover {
+        opacity: 1;
+    }
+}
+
+.player-video {
+    @include setGeometry();
+    background: #000;
+    object-fit: fill;
+}
+
+.player-anchor {
+    @include setGeometry();
+}
+
+.player-endboard-wrapper {
+    @include setGeometry();
+    display: none !important;
+    background-size: cover !important;
+    &.active {
+        display: block !important;
+    }
+
+    .player-overlay {
+        @include setGeometry();
+        background-color: $ENDBOARD_OVERLAY_COLOR;
+        pointer-events: none;
+    }
+    .player-replay-wrapper {
+        @include setGeometry();
+        opacity: 0.9;
+        transition: opacity 0.3s ease-in-out;
+        cursor: pointer;
+        &:hover {
+            opacity: 1;
+        }
+
+        .player-replay-content-wrapper {
+            pointer-events: none;
+        }
+    }
+}
+
+.social-anchor {
+    opacity: 0.9;
+    transform: scale(1);
+    transition: transform 120ms 120ms ease-out, opacity 120ms 120ms linear;
+    pointer-events: none;
+    circle {
+        pointer-events: auto;
+        fill: $SOCIALS_CIRCLE_FILL;
+    }
+    &:hover {
+        transition: transform 120ms ease-out, opacity 120ms linear;
+        transform: scale(0.95);
+        opacity: 1;
+    }
+
+    path { fill: $SOCIALS_ICON_FILL; }
+
+    // Uncomment to give socials default fill
+    // $SOCIALS_FACEBOOK_FILL: #507cbe;
+    // $SOCIALS_TWITTER_FILL: #63cdf1;
+    // $SOCIALS_PINTEREST_FILL: #f16261;
+    // $SOCIALS_GOOGLEPLUS_FILL: #404040;
+    // path { fill: #fff; }
+    // &.player-facebook { circle { fill: $SOCIALS_FACEBOOK_FILL; } }
+    // &.player-twitter { circle { fill: $SOCIALS_TWITTER_FILL; } }
+    // &.player-pinterest { circle { fill: $SOCIALS_PINTEREST_FILL; } }
+    // &.player-googleplus { circle { fill: $SOCIALS_GOOGLEPLUS_FILL; } }
+}
+
+@mixin setupPlayerGUISize($sizeUnitless) {
+    $size: $sizeUnitless * 1px;
+    $CONTROLS_SIZE: 20 * $size;
+    $CONTROLS_OUTER_HORIZONTAL_MARGIN: 3% * $sizeUnitless;
+    $CONTROLS_HORIZONTAL_MARGIN: 10 * $size;
+    $CONTROLS_BOTTOM_MARGIN: 1vw * $sizeUnitless;
+    $CONTROLS_TOP_MARGIN: 0.25vw * $sizeUnitless;
+    $SEEKBAR_AREA_WRAPPER_HEIGHT: 30 * $size;
+    $SEEKBAR_HEIGHT: 4 * $size;
+    $CONTROLS_WRAPPER_HEIGHT: calc(0.7 * #{$SEEKBAR_AREA_WRAPPER_HEIGHT} + #{$CONTROLS_SIZE} +
+        #{$CONTROLS_BOTTOM_MARGIN} + #{$CONTROLS_TOP_MARGIN});
+    $MOBILE_RESUME_SIZE: 60 * $size;
+    $MOBILE_SEEKBAR_HEIGHT: 6 * $size;
+
+    .player-gui-wrapper {
+        transform: scale(1.0001);
+        overflow: hidden;
+        & > .player-seekbar-wrapper {
+            @include setGeometry(100%, $MOBILE_SEEKBAR_HEIGHT + 2px);
+            top: auto;
+            bottom: -2px;
+            background: $MOBILE_SEEKBAR_FILL;
+            overflow: hidden;
+            pointer-events: none;
+            transform: translateZ(0);
+
+            .player-progressbar {
+                @include setGeometry();
+                background: $MOBILE_PROGRESSBAR_FILL;
+                pointer-events: none;
+                transform: translateX(-100%);
+            }
+        }
+        .player-resume {
+            @include setGeometry($MOBILE_RESUME_SIZE, $MOBILE_RESUME_SIZE, 50%, 50%);
+            transform: translate3d(-50%, -50%, 0);
+            &.active {
+                display: none;
+            }
+            .player-resume-circle {
+                stroke-width: 4;
+                stroke: $MOBILE_RESUME_CIRCLE_STROKE;
+                fill: $MOBILE_RESUME_CIRCLE_FILL;
+            }
+            path {
+                fill: $MOBILE_RESUME_TRIANGLE_FILL;
+            }
+        }
+        .player-volume-icon-wrapper {
+            $VOLUME_ICON_SIZE: 4vw * $sizeUnitless;
+            $VOLUME_ICON_MIN_SIZE: 40 * $size;
+            $VOLUME_ICON_MAX_SIZE: 53 * $size;
+            @include setGeometry($VOLUME_ICON_SIZE, $VOLUME_ICON_SIZE, 0, $VOLUME_ICON_MARGIN);
+            min-width: $VOLUME_ICON_MIN_SIZE;
+            min-height: $VOLUME_ICON_MIN_SIZE;
+            max-width: $VOLUME_ICON_MAX_SIZE;
+            max-height: $VOLUME_ICON_MAX_SIZE;
+            left: auto;
+            right: $VOLUME_ICON_MARGIN;
+            overflow: hidden;
+            cursor: pointer;
+            opacity: 0.9;
+            transition: opacity 0.3s ease-in-out;
+            &:hover {
+                opacity: 1;
+            }
+
+            &.hidden {
+                opacity: 0;
+            }
+
+            &.disabled {
+                display: none;
+            }
+            svg {
+                @include setGeometry();
+                fill: $VOLUME_ICON_FILL;
+                .player-volume-icon-bg {
+                    @include setGeometry();
+                    fill: $VOLUME_ICON_BACKGROUND_FILL;
+                }
+            }
+
+            .player-sound-on {
+                opacity: 0;
+            }
+            .player-sound-off {
+                opacity: 1;
+            }
+            &.sound-on {
+                .player-sound-on {
+                opacity: 1;
+                }
+                .player-sound-off {
+                opacity: 0;
+                }
+            }
+        }
+        .player-controls-wrapper {
+            $RESUME_LEFT: 3% * $sizeUnitless;
+            $TIMEBAR_RIGHT: 3% * $sizeUnitless;
+            @include setGeometry(100%, $CONTROLS_WRAPPER_HEIGHT, 50%);
+            top: auto;
+            bottom: 0;
+            transform: translate3d(-50%, 0, 0) scale(1.0001);
+            overflow: hidden;
+
+            [class*='-wrapper'] {
+                overflow: hidden;
+            }
+
+            .player-resume-wrapper, .player-volume-wrapper, .player-seekbar-area-wrapper {
+                opacity: 0.9;
+                transition: opacity 0.3s ease-in-out;
+                &:hover {
+                    opacity: 1;
+                }
+            }
+            .player-seekbar-area-wrapper {
+                &:hover {
+                    opacity: 1;
+                    .player-seekbar-wrapper {
+                        background-color: opacify($SEEKBAR_FILL, 0.1);
+                    }
+                    .player-progressbar {
+                        background-color: opacify($PROGRESSBAR_FILL, 0.2);
+                    }
+                }
+            }
+            .player-controls-overlay {
+                @include setGeometry(102%, $CONTROLS_WRAPPER_HEIGHT, 50%);
+                top: auto;
+                bottom: 0;
+                transform: translate3d(-50%, 3%, 0);
+                background: $CONTROLS_WRAPPER_FILL;
+            }
+
+            .player-controls-bottom-wrapper {
+                width: 97%; // fallback
+                @include setGeometry(calc(100% - 2 * #{$CONTROLS_OUTER_HORIZONTAL_MARGIN} + #{$CONTROLS_HORIZONTAL_MARGIN}), calc(#{$CONTROLS_SIZE} + #{$CONTROLS_TOP_MARGIN} + #{$CONTROLS_BOTTOM_MARGIN}), calc(#{$CONTROLS_OUTER_HORIZONTAL_MARGIN} - #{$CONTROLS_HORIZONTAL_MARGIN}));
+                top: auto; bottom: 0;
+                pointer-events: none;
+            }
+
+            .player-seekbar-area-wrapper {
+                width: 97%; // fallback
+                @include setGeometry(calc(100% - 2 * #{$CONTROLS_OUTER_HORIZONTAL_MARGIN}), $SEEKBAR_AREA_WRAPPER_HEIGHT, 0, 0, relative);
+                margin: 0 auto;
+                cursor: pointer;
+                .player-seekbar-wrapper, .player-progressbar {
+                    transition: background-color 0.3s ease-in-out;
+                }
+                .player-seekbar-wrapper {
+                    @include setGeometry(100%, $SEEKBAR_HEIGHT, 50%, 50%);
+                    transform: translate(-50%, -50%);
+                    background-color: $SEEKBAR_FILL;
+                    border-radius: 5 * $size;
+                    overflow: hidden;
+                    pointer-events: none;
+                }
+
+                .player-progressbar {
+                    @include setGeometry();
+                    pointer-events: none;
+                    transform: translateX(-100%);
+                    background-color: $PROGRESSBAR_FILL;
+                }
+            }
+
+            .player-resume-wrapper, .player-volume-wrapper {
+                display: inline-block;
+                width: $CONTROLS_SIZE; height: $CONTROLS_SIZE;
+                cursor: pointer;
+                pointer-events: auto;
+                svg {
+                    width: $CONTROLS_SIZE; height: $CONTROLS_SIZE;
+                    position: absolute;
+                    path {
+                        fill: $CONTROLS_FILL;
+                    }
+                }
+                .player-play, .player-sound-off {
+                    opacity: 1;
+                }
+                .player-pause, .player-sound-on {
+                    opacity: 0;
+                }
+            }
+
+            .player-resume-wrapper {
+                padding: $CONTROLS_TOP_MARGIN $CONTROLS_HORIZONTAL_MARGIN $CONTROLS_BOTTOM_MARGIN $CONTROLS_HORIZONTAL_MARGIN;
+                left: calc(#{$CONTROLS_OUTER_HORIZONTAL_MARGIN} - #{$CONTROLS_HORIZONTAL_MARGIN});
+
+                &.active {
+                    .player-play {
+                        opacity: 0;
+                    }
+                    .player-pause {
+                        opacity: 1;
+                    }
+                }
+            }
+
+            .player-volume-wrapper {
+                padding: $CONTROLS_TOP_MARGIN $CONTROLS_HORIZONTAL_MARGIN $CONTROLS_BOTTOM_MARGIN $CONTROLS_HORIZONTAL_MARGIN;
+
+                &.sound-on {
+                    .player-sound-off {
+                        opacity: 0;
+                    }
+                    .player-sound-on {
+                        opacity: 1;
+                    }
+                }
+            }
+
+            .player-timebar {
+                $TIMEBAR_FONT_SIZE: 0.6 * $CONTROLS_SIZE;
+                $TIMEBAR_HEIGHT: $CONTROLS_SIZE;
+                height: $TIMEBAR_HEIGHT;
+                margin: $CONTROLS_TOP_MARGIN 0 0 0;
+                padding-right: 5 * $size; // compansate for resume icon left transparency
+                @include setFont($TIMEBAR_FONT_SIZE, $TIMEBAR_HEIGHT, $TIMEBAR_COLOR);
+                opacity: 0.9;
+                pointer-events: none;
+                -webkit-font-smoothing: antialiased;
+                float: right;
+            }
+        }
+    }
+}
+
+@mixin setupPlayerEndboardSize($sizeUnitless) {
+    $size: $sizeUnitless * 1px;
+    $ENDBOARD_REPLAY_WRAPPER_WIDTH: 250 * $size;
+    $ENDBOARD_REPLAY_WRAPPER_HEIGHT: 50 * $size;
+    $ENDBOARD_ARROW_SIZE: $ENDBOARD_REPLAY_WRAPPER_HEIGHT;
+    $ENDBOARD_TEXT_WRAPPER_WIDTH: $ENDBOARD_REPLAY_WRAPPER_WIDTH - $ENDBOARD_ARROW_SIZE;
+    $ENDBOARD_TEXT_SIZE: 21 * $size;
+
+    $ENDBOARD_SOCIALS_SIZE: 30 * $size;
+    $ENDBOARD_SOCIALS_MARGIN: 4 * $size;
+    $ENDBOARD_SOCIALS_WIDTH: 3 * (2 * $ENDBOARD_SOCIALS_MARGIN + $ENDBOARD_SOCIALS_SIZE);
+    $ENDBOARD_SHARE_TEXT_FONT_SIZE: 12 * $size;
+    $ENDBOARD_SHARE_TEXT_MARGIN: 8 * $size;
+    .player-endboard-wrapper {
+        transform: scale(1.0001);
+        .player-replay-wrapper {
+            .player-replay-content-wrapper {
+                @include setGeometry($ENDBOARD_REPLAY_WRAPPER_WIDTH, $ENDBOARD_REPLAY_WRAPPER_HEIGHT, 50%, 50%);
+                transform: translate(-50%, -50%);
+                .player-replay {
+                    @include setGeometry(auto, 100%);
+                    fill: $ENDBOARD_COLOR;
+                }
+                .player-text {
+                    @include setGeometry($ENDBOARD_TEXT_WRAPPER_WIDTH, $ENDBOARD_TEXT_SIZE, 0, 50%);
+                    left: auto;
+                    right: 0;
+                    @include setFont($ENDBOARD_TEXT_SIZE, $ENDBOARD_TEXT_SIZE - 1px);
+                    transform: translateY(-50%);
+                    text-align: right;
+                    font-weight: 600;
+                    color: $ENDBOARD_COLOR;
+                }
+            }
+        }
+        .player-socials-wrapper {
+            @include setGeometry($ENDBOARD_SOCIALS_WIDTH, $ENDBOARD_SOCIALS_SIZE, 50%, 50%, relative);
+            transform: translate(-50%, 5vw);
+            text-align: center;
+            overflow: hidden;
+
+            &:hover {
+                overflow: visible;
+                .player-share {
+                    opacity: 1;
+                }
+            }
+
+            svg {
+                @include setGeometry($ENDBOARD_SOCIALS_SIZE, $ENDBOARD_SOCIALS_SIZE, 0%, 0%, relative);
+                margin: 0 $ENDBOARD_SOCIALS_MARGIN;
+            }
+
+            .player-share {
+                @include setFont($ENDBOARD_SHARE_TEXT_FONT_SIZE, $ENDBOARD_SHARE_TEXT_FONT_SIZE, $SOCIALS_ENDBOARD_TEXT_COLOR);
+                margin: $ENDBOARD_SHARE_TEXT_MARGIN 0 0 0;
+                height: $ENDBOARD_SHARE_TEXT_FONT_SIZE;
+                transition: opacity 120ms linear;
+                opacity: 0;
+            }
+        }
+    }
+}
+
+@mixin setupPlayerSocialsSize($sizeUnitless) {
+    $size: $sizeUnitless * 1px;
+    $SOCIALS_SIZE: 25 * $size;
+    $SOCIALS_MARGIN: 10 * $size;
+
+    .player-gui-wrapper {
+        .player-socials-wrapper {
+            margin-left: $SOCIALS_MARGIN;
+            margin-top: $SOCIALS_MARGIN;
+            width: $SOCIALS_SIZE;
+            position: absolute;
+
+            a {
+                @include setGeometry($SOCIALS_SIZE, $SOCIALS_SIZE, 0, 0, relative);
+                display: inline-block;
+            }
+
+            svg {
+                @include setGeometry($SOCIALS_VIEWBOX_DIFF * $SOCIALS_SIZE, $SOCIALS_SIZE);
+                transform-origin: 10 * $size 50%;
+                display: block;
+
+                g {
+                    opacity: 0;
+                    transition: opacity 120ms linear;
+                    rect {
+                        fill: $SOCIALS_LAYER_FILL;
+                    }
+                    text {
+                        @include setFont(13px);
+                        fill: $SOCIALS_SHARE_TEXT_FILL;
+                    }
+                }
+            }
+            .social-anchor:hover g {
+                opacity: 1;
+                transition: opacity 250ms 120ms linear;
+            }
+
+            &.right-side {
+                left: auto;
+                right: 0;
+                margin-left: 0;
+                margin-right: $SOCIALS_MARGIN;
+
+                svg {
+                    transform-origin: 120 * $size 50%;
+                    left: auto;
+                    right: 0;
+                }
+            }
+        }
+    }
+}
+
+@include setupPlayerGUISize(1 * $BASE_SIZE);
+@include setupPlayerEndboardSize(1 * $BASE_SIZE);
+@include setupPlayerSocialsSize(1 * $BASE_SIZE);
+
+.player-wrapper.mobile {
+    @include setupPlayerEndboardSize(0.8 * $BASE_SIZE);
+}
+.player-wrapper.gui-visible {
+    .player-gui-wrapper {
+        opacity: 1 !important;
+    }
+}
+
+// --------------------------------
+// Small size formats
+// --------------------------------
+
+// Uncomment to unlock unique styles for target format
+
+// #display {
+//   &.format_300x250 {
+//     @include setupPlayerGUISize(1 * $BASE_SIZE);
+//     @include setupPlayerEndboardSize(1 * $BASE_SIZE);
+//     @include setupPlayerSocialsSize(1 * $BASE_SIZE);
+//   }
+
+//   &.format_300x600 {
+//     @include setupPlayerGUISize(1 * $BASE_SIZE);
+//     @include setupPlayerEndboardSize(1 * $BASE_SIZE);
+//     @include setupPlayerSocialsSize(1 * $BASE_SIZE);
+//   }
+
+//   &.format_750x200 {
+//     @include setupPlayerGUISize(1 * $BASE_SIZE);
+//     @include setupPlayerSocialsSize(1 * $BASE_SIZE);
+//     @include setupPlayerEndboardSize(1 * $BASE_SIZE);
+//   }
+
+//   &.format_750x300 {
+//     @include setupPlayerGUISize(1 * $BASE_SIZE);
+//     @include setupPlayerSocialsSize(1 * $BASE_SIZE);
+//     @include setupPlayerEndboardSize(1 * $BASE_SIZE);
+//   }
+// }
+
+// --------------------------------
+// DEBUG
+// --------------------------------
+
+// .player-gui-wrapper {
+//   opacity: 1 !important;
+// }
+
+// svg {
+//     pointer-events: none;
+//     * {
+//         pointer-events: none;
+//     }
+// }
+
+// .player-video {
+//     background: #fff !important;
+// }
+
+// .player-controls-wrapper {
+//   background: #000 !important;
+// }
+
+// .player-seekbar-wrapper {
+//   background: #fff !important;
+// }

@@ -1,0 +1,1337 @@
+$FONT_FAMILY_DEFAULT: helvetica, verdana, arial, sans-serif;
+
+@mixin setGeometry($w: 100%, $h: 100%, $l: 0%, $t: 0%, $p: absolute) {
+    position: $p; width: $w;
+    height: $h; top: $t; left: $l;
+}
+@mixin setSizeAndMargin($w: 100vw, $h: $w) {
+    width: $w; height: $h;
+    margin-left: -0.5*$w;
+    margin-top: -0.5*$h;
+}
+@mixin setTopLeftMargin($l: 0, $t: 0) {
+    margin-left: $l;
+    margin-top: $t;
+}
+@mixin setFont($fontSize: 16px, $lineHeight: $fontSize, $color: #fff, $fontFamily: $FONT_FAMILY_DEFAULT) {
+    color: $color;
+    font-size: $fontSize;
+    font-family: $fontFamily;
+    line-height: $lineHeight;
+}
+@mixin sizer($w, $h: false, $p: absolute){
+    position: $p;
+    width: $w*0.0520833333%;
+    @if $h {
+        height: auto;
+    }
+    @else {
+        height: auto;
+    }
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    font-size: 0;
+    outline: unset;
+    @include setGeometry();
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-tap-highlight-color:  rgba(255, 255, 255, 0);
+    &body {
+        overflow: hidden;
+        &.cover { background-color: #000; }
+    }
+}
+
+video::-webkit-media-controls { display: none !important; }
+video::-webkit-media-controls-play-button,
+.IIV::-webkit-media-controls-play-button,
+video::-webkit-media-controls-start-playback-button {
+    opacity: 0 !important;
+    pointer-events: none !important;
+    width: 5px !important;
+    display: none !important;
+}
+
+$COLOR_THEME: #fff;
+$BG_COLOR_THEME: #000;
+$BASE_SIZE: 1;
+
+$PROGRESSBAR_FILL: rgba($COLOR_THEME, 0.6);
+$SEEKBAR_FILL: rgba($COLOR_THEME, 0.3); // if its the same color it should have opacity level > 0.1 in comparison to $PROGRESSBAR_FILL due to (1.) so progress-bar can stand out and (2.) opacify function is being used on hover state
+$MOBILE_PROGRESSBAR_FILL: $COLOR_THEME;
+$MOBILE_SEEKBAR_FILL: rgba($COLOR_THEME, 0);
+
+// big volume icon
+$VOLUME_ICON_MARGIN: 2vw;
+$VOLUME_ICON_FILL: $COLOR_THEME;
+$VOLUME_ICON_BACKGROUND_FILL: rgba($BG_COLOR_THEME, 0.2);
+
+// view with bottom controls wrapper
+$CONTROLS_WRAPPER_FILL: linear-gradient(transparent, rgba($BG_COLOR_THEME, 0.6));
+$CONTROLS_FILL: $COLOR_THEME; // play/resume and small volume icon
+$TIMEBAR_COLOR: $COLOR_THEME;
+
+// view without bottom controls wrapper
+$MOBILE_RESUME_CIRCLE_STROKE: $COLOR_THEME;
+$MOBILE_RESUME_CIRCLE_FILL: rgba($BG_COLOR_THEME, 0.2);
+$MOBILE_RESUME_TRIANGLE_FILL: $COLOR_THEME;
+
+$ENDBOARD_OVERLAY_COLOR: rgba($BG_COLOR_THEME, 0.4);
+$ENDBOARD_COLOR: $COLOR_THEME; // endboard replay content
+
+$SOCIALS_VIEWBOX_DIFF: 140/40;
+$SOCIALS_SHARE_TEXT_FILL: $COLOR_THEME;
+$SOCIALS_LAYER_FILL: rgba($BG_COLOR_THEME, 0.75);
+$SOCIALS_ICON_FILL: $BG_COLOR_THEME;
+$SOCIALS_CIRCLE_FILL: $COLOR_THEME;
+$SOCIALS_ENDBOARD_TEXT_COLOR: $COLOR_THEME;
+
+.player-wrapper {
+    overflow: hidden;
+    cursor: auto;
+    &.disabled {
+        display: none;
+    }
+    &.cursor-pointer {
+        cursor: pointer;
+    }
+    &.fullscreen {
+        width: 100% !important;
+        height: 100% !important;
+        top: 0 !important;
+        left: 0 !important;
+        bottom: auto !important;
+        right: auto !important;
+        position: absolute !important;
+        margin: 0 !important;
+        background: black !important;
+        transform: unset !important;
+        outline: unset !important;
+        border: unset !important;
+        border-radius: 0px !important;
+        overflow: visible !important; //safari
+
+        .player-video {
+          width: 100% !important;
+          height: auto !important;
+        }
+    }
+}
+
+.player-gui-wrapper {
+    @include setGeometry();
+    transition: opacity 120ms linear;
+    opacity: 0;
+
+    &:hover {
+        opacity: 1;
+    }
+}
+
+.player-video {
+    @include setGeometry();
+    background: #000;
+    object-fit: fill;
+}
+
+.player-anchor {
+    @include setGeometry();
+}
+
+.player-endboard-wrapper {
+    @include setGeometry();
+    display: none !important;
+    background-size: cover !important;
+    &.active {
+        display: block !important;
+    }
+
+    .player-overlay {
+        @include setGeometry();
+        background-color: $ENDBOARD_OVERLAY_COLOR;
+        pointer-events: none;
+    }
+    .player-replay-wrapper {
+        @include setGeometry();
+        opacity: 0.9;
+        transition: opacity 0.3s ease-in-out;
+        cursor: pointer;
+        &:hover {
+            opacity: 1;
+        }
+
+        .player-replay-content-wrapper {
+            pointer-events: none;
+        }
+    }
+}
+
+.social-anchor {
+    opacity: 0.9;
+    transform: scale(1);
+    transition: transform 120ms 120ms ease-out, opacity 120ms 120ms linear;
+    pointer-events: none;
+    circle {
+        pointer-events: auto;
+        fill: $SOCIALS_CIRCLE_FILL;
+    }
+    &:hover {
+        transition: transform 120ms ease-out, opacity 120ms linear;
+        transform: scale(0.95);
+        opacity: 1;
+    }
+
+    path { fill: $SOCIALS_ICON_FILL; }
+
+    // Uncomment to give socials default fill
+    // $SOCIALS_FACEBOOK_FILL: #507cbe;
+    // $SOCIALS_TWITTER_FILL: #63cdf1;
+    // $SOCIALS_PINTEREST_FILL: #f16261;
+    // $SOCIALS_GOOGLEPLUS_FILL: #404040;
+    // path { fill: #fff; }
+    // &.player-facebook { circle { fill: $SOCIALS_FACEBOOK_FILL; } }
+    // &.player-twitter { circle { fill: $SOCIALS_TWITTER_FILL; } }
+    // &.player-pinterest { circle { fill: $SOCIALS_PINTEREST_FILL; } }
+    // &.player-googleplus { circle { fill: $SOCIALS_GOOGLEPLUS_FILL; } }
+}
+
+@mixin setupPlayerGUISize($sizeUnitless) {
+    $size: $sizeUnitless * 1px;
+    $CONTROLS_SIZE: 20 * $size;
+    $CONTROLS_OUTER_HORIZONTAL_MARGIN: 3% * $sizeUnitless;
+    $CONTROLS_HORIZONTAL_MARGIN: 10 * $size;
+    $CONTROLS_BOTTOM_MARGIN: 1vw * $sizeUnitless;
+    $CONTROLS_TOP_MARGIN: 0.25vw * $sizeUnitless;
+    $SEEKBAR_AREA_WRAPPER_HEIGHT: 30 * $size;
+    $SEEKBAR_HEIGHT: 4 * $size;
+    $CONTROLS_WRAPPER_HEIGHT: calc(0.7 * #{$SEEKBAR_AREA_WRAPPER_HEIGHT} + #{$CONTROLS_SIZE} +
+        #{$CONTROLS_BOTTOM_MARGIN} + #{$CONTROLS_TOP_MARGIN});
+    $MOBILE_RESUME_SIZE: 60 * $size;
+    $MOBILE_SEEKBAR_HEIGHT: 6 * $size;
+
+    .player-gui-wrapper {
+        transform: scale(1.0001);
+        overflow: hidden;
+        & > .player-seekbar-wrapper {
+            @include setGeometry(100%, $MOBILE_SEEKBAR_HEIGHT + 2px);
+            top: auto;
+            bottom: -2px;
+            background: $MOBILE_SEEKBAR_FILL;
+            overflow: hidden;
+            pointer-events: none;
+            transform: translateZ(0);
+
+            .player-progressbar {
+                @include setGeometry();
+                background: $MOBILE_PROGRESSBAR_FILL;
+                pointer-events: none;
+                transform: translateX(-100%);
+            }
+        }
+        .player-resume {
+            @include setGeometry($MOBILE_RESUME_SIZE, $MOBILE_RESUME_SIZE, 50%, 50%);
+            transform: translate3d(-50%, -50%, 0);
+            &.active {
+                display: none;
+            }
+            .player-resume-circle {
+                stroke-width: 4;
+                stroke: $MOBILE_RESUME_CIRCLE_STROKE;
+                fill: $MOBILE_RESUME_CIRCLE_FILL;
+            }
+            path {
+                fill: $MOBILE_RESUME_TRIANGLE_FILL;
+            }
+        }
+        .player-volume-icon-wrapper {
+            $VOLUME_ICON_SIZE: 4vw * $sizeUnitless;
+            $VOLUME_ICON_MIN_SIZE: 40 * $size;
+            $VOLUME_ICON_MAX_SIZE: 53 * $size;
+            @include setGeometry($VOLUME_ICON_SIZE, $VOLUME_ICON_SIZE, 0, $VOLUME_ICON_MARGIN);
+            min-width: $VOLUME_ICON_MIN_SIZE;
+            min-height: $VOLUME_ICON_MIN_SIZE;
+            max-width: $VOLUME_ICON_MAX_SIZE;
+            max-height: $VOLUME_ICON_MAX_SIZE;
+            left: auto;
+            right: $VOLUME_ICON_MARGIN;
+            overflow: hidden;
+            cursor: pointer;
+            opacity: 0.9;
+            transition: opacity 0.3s ease-in-out;
+            &:hover {
+                opacity: 1;
+            }
+
+            &.hidden {
+                opacity: 0;
+            }
+
+            &.disabled {
+                display: none;
+            }
+            svg {
+                @include setGeometry();
+                fill: $VOLUME_ICON_FILL;
+                .player-volume-icon-bg {
+                    @include setGeometry();
+                    fill: $VOLUME_ICON_BACKGROUND_FILL;
+                }
+            }
+
+            .player-sound-on {
+                opacity: 0;
+            }
+            .player-sound-off {
+                opacity: 1;
+            }
+            &.sound-on {
+                .player-sound-on {
+                opacity: 1;
+                }
+                .player-sound-off {
+                opacity: 0;
+                }
+            }
+        }
+        .player-controls-wrapper {
+            $RESUME_LEFT: 3% * $sizeUnitless;
+            $TIMEBAR_RIGHT: 3% * $sizeUnitless;
+            @include setGeometry(100%, $CONTROLS_WRAPPER_HEIGHT, 50%);
+            top: auto;
+            bottom: 0;
+            transform: translate3d(-50%, 0, 0) scale(1.0001);
+            overflow: hidden;
+
+            [class*='-wrapper'] {
+                overflow: hidden;
+            }
+
+            .player-resume-wrapper, .player-volume-wrapper, .player-seekbar-area-wrapper {
+                opacity: 0.9;
+                transition: opacity 0.3s ease-in-out;
+                &:hover {
+                    opacity: 1;
+                }
+            }
+            .player-seekbar-area-wrapper {
+                &:hover {
+                    opacity: 1;
+                    .player-seekbar-wrapper {
+                        background-color: opacify($SEEKBAR_FILL, 0.1);
+                    }
+                    .player-progressbar {
+                        background-color: opacify($PROGRESSBAR_FILL, 0.2);
+                    }
+                }
+            }
+            .player-controls-overlay {
+                @include setGeometry(102%, $CONTROLS_WRAPPER_HEIGHT, 50%);
+                top: auto;
+                bottom: 0;
+                transform: translate3d(-50%, 3%, 0);
+                background: $CONTROLS_WRAPPER_FILL;
+            }
+
+            .player-controls-bottom-wrapper {
+                width: 97%; // fallback
+                @include setGeometry(calc(100% - 2 * #{$CONTROLS_OUTER_HORIZONTAL_MARGIN} + #{$CONTROLS_HORIZONTAL_MARGIN}), calc(#{$CONTROLS_SIZE} + #{$CONTROLS_TOP_MARGIN} + #{$CONTROLS_BOTTOM_MARGIN}), calc(#{$CONTROLS_OUTER_HORIZONTAL_MARGIN} - #{$CONTROLS_HORIZONTAL_MARGIN}));
+                top: auto; bottom: 0;
+                pointer-events: none;
+            }
+
+            .player-seekbar-area-wrapper {
+                width: 97%; // fallback
+                @include setGeometry(calc(100% - 2 * #{$CONTROLS_OUTER_HORIZONTAL_MARGIN}), $SEEKBAR_AREA_WRAPPER_HEIGHT, 0, 0, relative);
+                margin: 0 auto;
+                cursor: pointer;
+                .player-seekbar-wrapper, .player-progressbar {
+                    transition: background-color 0.3s ease-in-out;
+                }
+                .player-seekbar-wrapper {
+                    @include setGeometry(100%, $SEEKBAR_HEIGHT, 50%, 50%);
+                    transform: translate(-50%, -50%);
+                    background-color: $SEEKBAR_FILL;
+                    border-radius: 5 * $size;
+                    overflow: hidden;
+                    pointer-events: none;
+                }
+
+                .player-progressbar {
+                    @include setGeometry();
+                    pointer-events: none;
+                    transform: translateX(-100%);
+                    background-color: $PROGRESSBAR_FILL;
+                }
+            }
+
+            .player-resume-wrapper, .player-volume-wrapper {
+                display: inline-block;
+                width: $CONTROLS_SIZE; height: $CONTROLS_SIZE;
+                cursor: pointer;
+                pointer-events: auto;
+                svg {
+                    width: $CONTROLS_SIZE; height: $CONTROLS_SIZE;
+                    position: absolute;
+                    path {
+                        fill: $CONTROLS_FILL;
+                    }
+                }
+                .player-play, .player-sound-off {
+                    opacity: 1;
+                }
+                .player-pause, .player-sound-on {
+                    opacity: 0;
+                }
+            }
+
+            .player-resume-wrapper {
+                padding: $CONTROLS_TOP_MARGIN $CONTROLS_HORIZONTAL_MARGIN $CONTROLS_BOTTOM_MARGIN $CONTROLS_HORIZONTAL_MARGIN;
+                left: calc(#{$CONTROLS_OUTER_HORIZONTAL_MARGIN} - #{$CONTROLS_HORIZONTAL_MARGIN});
+
+                &.active {
+                    .player-play {
+                        opacity: 0;
+                    }
+                    .player-pause {
+                        opacity: 1;
+                    }
+                }
+            }
+
+            .player-volume-wrapper {
+                padding: $CONTROLS_TOP_MARGIN $CONTROLS_HORIZONTAL_MARGIN $CONTROLS_BOTTOM_MARGIN $CONTROLS_HORIZONTAL_MARGIN;
+
+                &.sound-on {
+                    .player-sound-off {
+                        opacity: 0;
+                    }
+                    .player-sound-on {
+                        opacity: 1;
+                    }
+                }
+            }
+
+            .player-timebar {
+                $TIMEBAR_FONT_SIZE: 0.6 * $CONTROLS_SIZE;
+                $TIMEBAR_HEIGHT: $CONTROLS_SIZE;
+                height: $TIMEBAR_HEIGHT;
+                margin: $CONTROLS_TOP_MARGIN 0 0 0;
+                padding-right: 5 * $size; // compansate for resume icon left transparency
+                @include setFont($TIMEBAR_FONT_SIZE, $TIMEBAR_HEIGHT, $TIMEBAR_COLOR);
+                opacity: 0.9;
+                pointer-events: none;
+                -webkit-font-smoothing: antialiased;
+                float: right;
+            }
+        }
+    }
+}
+
+@mixin setupPlayerEndboardSize($sizeUnitless) {
+    $size: $sizeUnitless * 1px;
+    $ENDBOARD_REPLAY_WRAPPER_WIDTH: 250 * $size;
+    $ENDBOARD_REPLAY_WRAPPER_HEIGHT: 50 * $size;
+    $ENDBOARD_ARROW_SIZE: $ENDBOARD_REPLAY_WRAPPER_HEIGHT;
+    $ENDBOARD_TEXT_WRAPPER_WIDTH: $ENDBOARD_REPLAY_WRAPPER_WIDTH - $ENDBOARD_ARROW_SIZE;
+    $ENDBOARD_TEXT_SIZE: 21 * $size;
+
+    $ENDBOARD_SOCIALS_SIZE: 30 * $size;
+    $ENDBOARD_SOCIALS_MARGIN: 4 * $size;
+    $ENDBOARD_SOCIALS_WIDTH: 3 * (2 * $ENDBOARD_SOCIALS_MARGIN + $ENDBOARD_SOCIALS_SIZE);
+    $ENDBOARD_SHARE_TEXT_FONT_SIZE: 12 * $size;
+    $ENDBOARD_SHARE_TEXT_MARGIN: 8 * $size;
+    .player-endboard-wrapper {
+        transform: scale(1.0001);
+        .player-replay-wrapper {
+            .player-replay-content-wrapper {
+                @include setGeometry($ENDBOARD_REPLAY_WRAPPER_WIDTH, $ENDBOARD_REPLAY_WRAPPER_HEIGHT, 50%, 50%);
+                transform: translate(-50%, -50%);
+                .player-replay {
+                    @include setGeometry(auto, 100%);
+                    fill: $ENDBOARD_COLOR;
+                }
+                .player-text {
+                    @include setGeometry($ENDBOARD_TEXT_WRAPPER_WIDTH, $ENDBOARD_TEXT_SIZE, 0, 50%);
+                    left: auto;
+                    right: 0;
+                    @include setFont($ENDBOARD_TEXT_SIZE, $ENDBOARD_TEXT_SIZE - 1px);
+                    transform: translateY(-50%);
+                    text-align: right;
+                    font-weight: 600;
+                    color: $ENDBOARD_COLOR;
+                }
+            }
+        }
+        .player-socials-wrapper {
+            @include setGeometry($ENDBOARD_SOCIALS_WIDTH, $ENDBOARD_SOCIALS_SIZE, 50%, 50%, relative);
+            transform: translate(-50%, 5vw);
+            text-align: center;
+            overflow: hidden;
+
+            &:hover {
+                overflow: visible;
+                .player-share {
+                    opacity: 1;
+                }
+            }
+
+            svg {
+                @include setGeometry($ENDBOARD_SOCIALS_SIZE, $ENDBOARD_SOCIALS_SIZE, 0%, 0%, relative);
+                margin: 0 $ENDBOARD_SOCIALS_MARGIN;
+            }
+
+            .player-share {
+                @include setFont($ENDBOARD_SHARE_TEXT_FONT_SIZE, $ENDBOARD_SHARE_TEXT_FONT_SIZE, $SOCIALS_ENDBOARD_TEXT_COLOR);
+                margin: $ENDBOARD_SHARE_TEXT_MARGIN 0 0 0;
+                height: $ENDBOARD_SHARE_TEXT_FONT_SIZE;
+                transition: opacity 120ms linear;
+                opacity: 0;
+            }
+        }
+    }
+}
+
+@mixin setupPlayerSocialsSize($sizeUnitless) {
+    $size: $sizeUnitless * 1px;
+    $SOCIALS_SIZE: 25 * $size;
+    $SOCIALS_MARGIN: 10 * $size;
+
+    .player-gui-wrapper {
+        .player-socials-wrapper {
+            margin-left: $SOCIALS_MARGIN;
+            margin-top: $SOCIALS_MARGIN;
+            width: $SOCIALS_SIZE;
+            position: absolute;
+
+            a {
+                @include setGeometry($SOCIALS_SIZE, $SOCIALS_SIZE, 0, 0, relative);
+                display: inline-block;
+            }
+
+            svg {
+                @include setGeometry($SOCIALS_VIEWBOX_DIFF * $SOCIALS_SIZE, $SOCIALS_SIZE);
+                transform-origin: 10 * $size 50%;
+                display: block;
+
+                g {
+                    opacity: 0;
+                    transition: opacity 120ms linear;
+                    rect {
+                        fill: $SOCIALS_LAYER_FILL;
+                    }
+                    text {
+                        @include setFont(13px);
+                        fill: $SOCIALS_SHARE_TEXT_FILL;
+                    }
+                }
+            }
+            .social-anchor:hover g {
+                opacity: 1;
+                transition: opacity 250ms 120ms linear;
+            }
+
+            &.right-side {
+                left: auto;
+                right: 0;
+                margin-left: 0;
+                margin-right: $SOCIALS_MARGIN;
+
+                svg {
+                    transform-origin: 120 * $size 50%;
+                    left: auto;
+                    right: 0;
+                }
+            }
+        }
+    }
+}
+
+@include setupPlayerGUISize(1 * $BASE_SIZE);
+@include setupPlayerEndboardSize(1 * $BASE_SIZE);
+@include setupPlayerSocialsSize(1 * $BASE_SIZE);
+
+.player-wrapper.mobile {
+    @include setupPlayerEndboardSize(0.8 * $BASE_SIZE);
+}
+.player-wrapper.gui-visible {
+    .player-gui-wrapper {
+        opacity: 1 !important;
+    }
+}
+
+// --------------------------------
+// Small size formats
+// --------------------------------
+
+// Uncomment to unlock unique styles for target format
+
+// #display {
+//   &.format_300x250 {
+//     @include setupPlayerGUISize(1 * $BASE_SIZE);
+//     @include setupPlayerEndboardSize(1 * $BASE_SIZE);
+//     @include setupPlayerSocialsSize(1 * $BASE_SIZE);
+//   }
+
+//   &.format_300x600 {
+//     @include setupPlayerGUISize(1 * $BASE_SIZE);
+//     @include setupPlayerEndboardSize(1 * $BASE_SIZE);
+//     @include setupPlayerSocialsSize(1 * $BASE_SIZE);
+//   }
+
+//   &.format_750x200 {
+//     @include setupPlayerGUISize(1 * $BASE_SIZE);
+//     @include setupPlayerSocialsSize(1 * $BASE_SIZE);
+//     @include setupPlayerEndboardSize(1 * $BASE_SIZE);
+//   }
+
+//   &.format_750x300 {
+//     @include setupPlayerGUISize(1 * $BASE_SIZE);
+//     @include setupPlayerSocialsSize(1 * $BASE_SIZE);
+//     @include setupPlayerEndboardSize(1 * $BASE_SIZE);
+//   }
+// }
+
+// --------------------------------
+// DEBUG
+// --------------------------------
+
+// .player-gui-wrapper {
+//   opacity: 1 !important;
+// }
+
+// svg {
+//     pointer-events: none;
+//     * {
+//         pointer-events: none;
+//     }
+// }
+
+// .player-video {
+//     background: #fff !important;
+// }
+
+// .player-controls-wrapper {
+//   background: #000 !important;
+// }
+
+// .player-seekbar-wrapper {
+//   background: #fff !important;
+// }
+
+
+.hide {
+  opacity: 0;
+}
+
+#expand-workspace {
+  $width: 100vw;
+  $ratio: 16/9;
+  $height: $width/$ratio;
+  @include setGeometry($width, $height, 0%, 50%, fixed);
+  //@include setTopLeftMargin(0, -0.5*$height);
+  overflow: hidden;
+  background: #fff;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  &.fixed {
+    // #logotype { position: fixed !important; }
+  }
+
+  .global-redirect {
+    @include sizer(1920, 1080);
+    z-index: 1;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  //pointer-events: none;
+  img {
+    position: absolute;
+    z-index: 1;
+  }
+
+  .hide {
+    opacity: 0;
+  }
+
+  .translate {
+    transform: translate(-50%, -50%);
+  }
+
+  #intro {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    overflow: hidden;
+    width: 100vw;
+    max-width: 1920px;
+    height: 100vh;
+    max-height: 1080px;
+    transition: .8s ease;
+    transform: translate(-50%, -50%);
+
+    #bgViolet {
+      top: -25%;
+    }
+
+    #bgViolet, #bgPink, #bgGrey {
+      position: absolute;
+      top: -15%;
+      left: 0;
+      width: 115vw;
+      height: 115vh;
+      transition: 1s ease;
+    }
+
+
+    #bottle {
+      @include sizer(246, 764);
+      top: 203/1080*100%;
+      left: 771/1920*100%;
+      transition: .5s ease;
+    }
+
+    .prodTransform1 {
+      transform: translate(0, -113%);
+    }
+
+    #tin {
+      top: 377/1080*100%;
+      left: 968/1920*100%;
+      @include sizer(307, 508);
+      transition: .5s ease;
+    }
+
+
+    .prodTransform0 {
+      transform: translate(0, -162%);
+    }
+
+    #mint1 {
+      top: 452/1080*100%;
+      left: 1321/1920*100%;
+      @include sizer(102, 135);
+      transition: .5s ease;
+    }
+
+    .elTransform0 {
+      transform: translate(50%, -50%) scale(0);
+    }
+
+    #mint2 {
+      top: 207/1080*100%;
+      left: 945/1920*100%;
+      @include sizer(182, 118);
+      transition: .5s ease;
+    }
+
+    .elTransform1 {
+      transform: translate(0, -50%) scale(0);
+    }
+
+    #lime1 {
+      top: 1227/1080*100%;
+      left: 1309/1920*100%;
+      @include sizer(146, 119);
+      transition: .5s ease;
+    }
+
+    .elTransform2 {
+      transform: translate(108%, 40%) scale(0);
+    }
+
+    #lime2 {
+      top: 393/1080*100%;
+      left: 549/1920*100%;
+      @include sizer(160, 120);
+      transition: .5s ease;
+    }
+
+    .elTransform3 {
+      transform: translate(-100%, 100%) scale(0);
+    }
+
+    #strawberry {
+      top: 651/1080*100%;
+      left: 602/1920*100%;
+      @include sizer(144, 268);
+      transition: .5s ease;
+    }
+
+    .elTransform4 {
+      transform: translate(0, 50%) scale(0);
+    }
+  }
+
+  .bgTransition {
+    transform: translateY(100%);
+  }
+
+  #main {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    overflow: hidden;
+    width: 100%;
+    max-width: 1920px;
+    height: 100%;
+    max-height: 1080px;
+    transition: .8s ease;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+
+    #static {
+      bottom: -4.481481%;
+      left: 59.03125%;
+      @include sizer(1035, 286);
+      transition: .8s ease;
+      transform: translate(-50%, -50%);
+    }
+
+    #guide {
+      top: 19%;
+      left: 58.5%;
+      @include sizer(461, 67);
+      transition: .8s ease;
+      transform: translate(-50%, -50%);
+    }
+
+    #guide2 {
+      top: 25.5%;
+      left: 58.6%;
+      @include sizer(370, 69);
+      transition: .8s ease;
+      transform: translate(-50%, -50%);
+    }
+
+    .shaker {
+      position: absolute;
+      z-index: 1;
+      top: 50%;
+      left: 58.7%;
+      //@include sizer(257, 582);
+      width: 13%;
+      height: 61%;
+      transition: all .8s ease;
+      transform: translate(-50%, -49%);
+    }
+
+    #shaker {
+      @include sizer(253, 407);
+      //top: 62.4%;
+      //left: 50%;
+      top: 69.7%;
+      left: 50%;
+      transition: .8s ease;
+      width: 100%;
+      height: auto;
+    }
+
+    #shakerShadow {
+      top: 85%;
+      left: 76%;
+      transition: all .4s ease;
+      width: 49%;
+      height: auto;
+    }
+
+    #shakerFull {
+      top: 54.3%;
+      left: 58.666667%;
+      transition: all .4s ease;
+      @include sizer(257, 582);
+    }
+
+    #lid {
+      top: 29.5%;
+      left: 49.8%;
+      width: 102%;
+      height: auto;
+      //@include sizer(257, 223);
+      transition: 1s ease;
+    }
+
+    #circle {
+      position: absolute;
+      z-index: 2;
+      top: 42%;
+      width: 130/1080*100%;
+      height: 140/1080*100%;
+      left: 51%;
+      transition: .8s ease;
+      transform: translate(-50%, -50%);
+      border: 3px solid white;
+      border-radius: 50%;
+    }
+
+    .hand {
+      cursor: url('../../media/expand/hand.png'), auto;
+    }
+
+    .dragContainer {
+      z-index: 2;
+      top: 50%;
+      left: 58%;
+      transform: translate(-50%, -50%);
+      width: 60%;
+      height: 100%;
+      position: absolute;
+    }
+
+    #emint1 {
+      position: absolute;
+      top: 21%;
+      left: 15%;
+
+      & img {
+        //@include sizer(103, 136);
+      }
+    }
+
+
+    #elime1 {
+      position: absolute;
+      top: 37%;
+      left: 20%;
+
+      & img {
+        //@include sizer(121, 124);
+      }
+    }
+
+    #elime2 {
+      //@include sizer(115, 86);
+      position: absolute;
+      top: 58%;
+      left: 24%;
+
+      & img {
+        //@include sizer(115, 86);
+      }
+    }
+
+    #estraw1 {
+      //@include sizer(95, 125);
+      position: absolute;
+      top: 50%;
+      left: 74%;
+
+      & img {
+        //@include sizer(95, 125);
+      }
+    }
+
+    #estraw2 {
+      //@include sizer(109, 108);
+      position: absolute;
+      top: 35%;
+      left: 69%;
+
+      & img {
+        //@include sizer(109, 108);
+      }
+    }
+
+    .dropElement {
+      z-index: 3;
+      cursor: url('../../media/expand/hand.png'), auto;
+      background-color: transparent;
+      width: 14%;
+      height: 14%;
+      &.grab {
+        cursor: url('../../media/expand/grab.png'), auto;
+      }
+
+      & img {
+        position: absolute;
+        z-index: 1;
+        top: 50%;
+        left: 50%;
+        width: 64%;
+        transition: all .3s;
+        transform: translate(-50%, -50%) rotate(0deg) scale(1);
+      }
+
+      &:hover img {
+        transform: translate(-50%, -50%) rotate(90deg) scale(1.1);
+      }
+
+      &:before {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        @include sizer(120, 120);
+        content: " ";
+        transition: .2s ease;
+        transform: translate(-50%, -50%) rotate(0deg);
+        opacity: 0;
+        border: 2px solid white;
+      }
+
+      &:hover::before {
+        transform: translate(-50%, -50%) rotate(90deg);
+        opacity: 1;
+      }
+    }
+
+    #prodContainer {
+      position: absolute;
+      z-index: 1;
+      top: 51%;
+      left: 59%;
+      width: 19.62499999%;
+      height: 41.66666664%;
+      transition: .8s ease;
+      transform: translate(-50%, -50%);
+    }
+
+    #glass {
+      @include sizer(245, 455);
+      z-index: 1;
+      top: 52%;
+      left: 68.5%;
+      transition: .5s all;
+      transform: translate(-45%, -50%);
+      opacity: 0;
+
+      &.glassIn {
+        transform: translate(-50%, -50%);
+        opacity: 1;
+      }
+    }
+
+    #tin2 {
+      top: 76%;
+      left: 49%;
+      width: 44%;
+      height: auto;
+      transition: .5s ease;
+    }
+
+    #tinShadow {
+      top: 86%;
+      left: 74%;
+      @include sizer(790, 198);
+      transition: .5s ease;
+    }
+
+    #bottle2 {
+      position: absolute;
+      top: 47%;
+      left: 49%;
+      width: 46%;
+      height: auto;
+      transition: .5s ease;
+    }
+
+    #bottleShadow {
+      position: absolute;
+      top: 86%;
+      left: 74%;
+      @include sizer(790, 198);
+      transition: .5s ease;
+    }
+
+    .logo {
+      top: 21%;
+      left: 9%;
+      @include sizer(241, 152);
+      transition: .8s ease;
+      transform: translate(-50%, -50%);
+    }
+
+    .text {
+      top: 47.5%;
+      left: 19%;
+      @include sizer(562, 329);
+      transition: .8s ease;
+      transform: translate(-50%, -50%);
+    }
+
+
+    #cta {
+      width: 260/1920*100%;
+      height: 60/1080*100%;
+      z-index: 3;
+      top: 76.4%;
+      left: 12%;
+      position: absolute;
+      transition: .3s ease;
+      transform: translate(-60%, -50%);
+      background-color: #fff;
+
+      .cta {
+        width: 47%;
+        height: 32%;
+        z-index: 4;
+        top: 50%;
+        left: 50%;
+        transition: .4s ease;
+        transform: translate(-50%, -50%);
+      }
+
+      img {
+        width: 100%;
+        height: 100%;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+
+        &.bgCta {
+          width: 161%;
+          height: 392%;
+          z-index: 1;
+          top: 79.4%;
+          left: 47%;
+          transition: .3s all;
+          transform: translate(-160%, -50%);
+          opacity: 0;
+        }
+
+        &.ctaCover {
+          z-index: 2;
+          transition: .3s all;
+          clip-path: inset(0 0% 0% 100%);
+
+          &.cta_a {
+            top: 50%;
+            clip-path: inset(0 100% 0% 0%);
+          }
+        }
+      }
+
+      &:hover {
+        img {
+          &.ctaCover {
+            clip-path: inset(0 0 0 0);
+          }
+
+          &.bgCta {
+            transform: translate(-60%, -50%);
+            opacity: 1;
+          }
+        }
+
+      }
+    }
+
+
+    .legal {
+      @include sizer(213, 27);
+      bottom: 10.296296%;
+      left: 6.5%;
+      transition: .8s ease;
+      transform: translate(-50%, -50%);
+
+    }
+
+    #container {
+      position: absolute;
+      width: 50%;
+      height: 100%;
+    }
+
+    .counter {
+      width: 21%;
+      height: 19%;
+      position: absolute;
+      z-index: 2;
+      top: 24%;
+      right: 0;
+      transform: translate(0, -50%);
+
+      .number {
+        top: 36%;
+        left: 31.4%;
+        position: absolute;
+        width: 18.979167%;
+        height: auto;
+      }
+
+      #repeat {
+        bottom: 23%;
+        left: 11.5%;
+        width: 27%;
+        height: auto;
+        cursor: pointer;
+      }
+
+      #maxNumber {
+       top: 50%;
+        left: 56%;
+        width: 14.5%;
+        height: auto;
+      }
+
+      #steps {
+        top: 0;
+        left: 0;
+        width: 100%;
+        //@include sizer(404, 202);
+      }
+    }
+
+
+    .bgTranslate {
+      transform: translate(-50%, -50%);
+    }
+
+    .bgLeft {
+      top: 50%;
+      left: 14.5%;
+      @include sizer(559, 1080);
+      transition: .6s ease;
+      transform: translate(-50%, -50%);
+    }
+
+    .ebg {
+      position: absolute;
+      top: 50%;
+      left: 56%;
+      //width: 75.2083332852vw;
+      //height: 56.249999964vw;
+      transition: .8s ease;
+      transform: translate(-50%, -50%);
+      @include sizer(1444, 1080);
+    }
+
+    .bgRight {
+      z-index: 2;
+      top: 50%;
+      right: -6.4%;
+      @include sizer(239, 1080);
+      transition: .4s ease;
+      transform: translate(-50%, -50%);
+    }
+
+    .go {
+      z-index: 2;
+      right: 0%;
+      @include sizer(262, 84);
+      bottom: 11%;
+      transition: .8s ease;
+      transform: translate(0, -50%);
+    }
+
+    .toShaker {
+      transition: all .4s ease;
+      transform: translate(50%, 10%) rotate(360deg) scale(0);
+    }
+
+    .expandTransitionLeft {
+      transform: translate(-170%, -50%);
+    }
+
+    .expandTransitionRight {
+      transform: translate(170%, -50%);
+    }
+
+    .translateUp {
+      transform: translate(-50%, -300%);
+    }
+
+    .shakerRotate {
+      transform: translate(0%, -370%) rotate(540deg);
+      transform-origin: center;
+    }
+
+  }
+
+  #outro {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    overflow: hidden;
+    width: 100vw;
+    max-width: 1920px;
+    height: 100vh;
+    max-height: 1080px;
+    transition: .8s ease;
+    transform: translate(-50%, -50%);
+
+    #outroBgPink {
+      transition: .8s ease;
+    }
+
+    #outroBgGrey {
+      transition: .8s ease;
+    }
+
+    #outroLogo {
+      top: 50%;
+      left: 50%;
+      @include sizer(544, 341);
+      transition: .8s ease;
+      transform: translate(-50%, -50%);
+    }
+
+    .outroTransform {
+      transform: translateY(-150%);
+    }
+  }
+}
+
+@keyframes scaleAnim {
+  from {
+    transform: scale(0);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+#close-expand {
+  //@include sizer(93,16);
+  width: 7.5vw;
+  height: 2vh;
+  //@include setGeometry($width, $height, auto, $margin, fixed);
+
+  z-index: 99999999 !important;
+  // background: url('https://4stk.com/sataku/szablon/images/mobile/custom/zamknij.png?version=0.0') no-repeat center center;
+  top: 14vh;
+  right: 2vw;
+  cursor: pointer;
+  transition: .8s ease;
+  background-size: contain;
+  position: absolute;
+
+  .square {
+    transform-origin: center;
+    z-index: -1;
+    top: 50%;
+    left: 84%;
+    transition: .3s all;
+    @include sizer(30, 30);
+    transform: translate(0, -50%) rotate(-45deg);
+    background: white;
+  }
+
+  & img {
+    width: 80%;
+    right: 0;
+  }
+
+  &:hover {
+    .square {
+      transform: translate(0, -50%) rotate(0deg);
+    }
+  }
+}
+
+#player-wrapper-1 {
+  $width: 33vw;
+  $ratio: 16/9;
+  $height: $width/$ratio;
+  @include setGeometry($width, $height, 0%, 0%, absolute);
+  @include setTopLeftMargin(-0.5*$width, -0.5*$height);
+}
