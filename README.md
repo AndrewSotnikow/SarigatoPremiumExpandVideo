@@ -8,7 +8,7 @@ This is complex rich media creative with 2 stage mini game and complex css anima
 * Stage 1 - game
 * Stage 2 - repeat game
 
-This project created with Sataku JS framework, Vanilla JavaScript, SASS and HTML.
+This project is created using the Sataku JS framework, Vanilla JavaScript, SASS and HTML.
 Sataku JS framework is used to setup creation on a server.
 
 ## Table of contents
@@ -28,7 +28,7 @@ Sataku JS framework is used to setup creation on a server.
 
 ## Setup
 
-This rich media creative created with Sataku JS framework that can't be used outside company.
+This rich media creative created using Sataku JS framework that can't be used outside company.
 In this reason there is no way to setup project without Sataku JS framework.
 
 You are interested in next files:
